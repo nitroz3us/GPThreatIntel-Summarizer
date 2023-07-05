@@ -51,7 +51,8 @@
       <div class="header-container mb-14">
         <h1 class="text-4xl flex justify-center mb-2 font-semibold">
           Streamline&nbsp
-          <span class="text-sky-500">Threat Intelligence&nbsp</span> with&nbsp
+          <span class="text-sky-500">Cyber Threat Intelligence&nbsp</span>
+          with&nbsp
           <span class="text-sky-500">AI</span>
         </h1>
         <p class="text-xl flex justify-center">
@@ -79,12 +80,24 @@
           </button>
         </div>
       </form>
-      <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
-        {% if result %}
-        <div class="result">{{ result }}</div>
-        {% endif %}
-      </div>
 
+      <div class="card">
+        <a
+          href="#"
+          class="mt-4 mb-6 ml-32 mr-32 block p-6 border border-sky-900 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
+        >
+          {% if result %}
+          <div class="text-xl">Summary</div>
+          <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700" />
+
+          <div class="result font-normal text-gray-300">{{ result }}</div>
+          {% else %}
+          <div class="result font-normal text-white flex justify-center">
+            NO SUMMARY YET
+          </div>
+          {% endif %}
+        </a>
+      </div>
       <!-- <h3>Enter URL</h3>
       <form action="/" method="post">
         <input type="text" name="url" placeholder="Enter Report URL" required />
