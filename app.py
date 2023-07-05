@@ -53,7 +53,6 @@ def extract_text(url):
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-
 @app.post("/", response_class=HTMLResponse)
 async def index(request: Request, url: str= Form(...)):
     #display the extracted text inputted by the user in a textfield form

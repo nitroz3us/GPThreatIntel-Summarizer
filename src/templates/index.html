@@ -1,17 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html class="bg-zinc-950 text-white font-sans">
   <head>
-    <title>OpenAI Quickstart</title>
+    <title>GPThreat Intel Summarizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/static/favicon.ico" />
+
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
   <body>
-    <h3>Enter URL</h3>
-    <form action="/" method="post">
-      <input type="text" name="url" placeholder="Enter Report URL" required />
-      <button type="submit">Process Report</button>
-    </form>
-    {% if result %}
-    <div class="result">{{ result }}</div>
-    {% endif %}
+    <!-- Navigation Header -->
+    <div class="top_nav">
+      <nav class="border-gray-200 bg-zinc-900 border-gray-600 border-b">
+        <div
+          class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+        >
+          <a href="/" class="flex">
+            <span
+              class="self-center text-xl font-semibold whitespace-nowrap text-white"
+              >GPThreatIntel</span
+            >
+          </a>
+
+          <div
+            class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          >
+            <ul
+              class="flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0"
+            >
+              <li>
+                <a
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-800 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:hover:text-gray-500 text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/nitroz3us/GPThreatIntel-Summarizer"
+                  target="_blank"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 text-white md:hover:text-gray-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  >GitHub</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="h-screen mt-20 m-10">
+      <div class="header-container mb-14">
+        <h1 class="text-4xl flex justify-center mb-2 font-semibold">
+          Streamline&nbsp
+          <span class="text-sky-500">Threat Intelligence&nbsp</span> with&nbsp
+          <span class="text-sky-500">AI</span>
+        </h1>
+        <p class="text-xl flex justify-center">
+          Speed up analyst process by using this tool
+        </p>
+      </div>
+
+      <form action="/" method="post">
+        <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
+          <!-- <label for="email" class="block mb-2 text-sm font-medium text-white"
+            >Your email</label
+          > -->
+          <input
+            type="text"
+            name="url"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-4 bg-zinc-950 border-gray-600 placeholder-gray-400 text-white mr-4"
+            placeholder="www.example.com"
+            required
+          />
+          <button
+            type="submit"
+            class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          >
+            GO
+          </button>
+        </div>
+      </form>
+      <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
+        {% if result %}
+        <div class="result">{{ result }}</div>
+        {% endif %}
+      </div>
+
+      <!-- <h3>Enter URL</h3>
+      <form action="/" method="post">
+        <input type="text" name="url" placeholder="Enter Report URL" required />
+        <button type="submit">Summarize Report</button>
+      </form>
+      {% if result %}
+      <div class="result">{{ result }}</div>
+      {% endif %} -->
+    </div>
   </body>
 </html>
