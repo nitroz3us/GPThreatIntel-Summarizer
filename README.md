@@ -40,6 +40,11 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 - Click the "Summarize" button to generate a summary of the report.
 - The extracted IOCs and TTPs will be displayed below the summarized report.
 
+## Demo (unfinished)
+
+<img src="https://github.com/nitroz3us/GPThreatIntel-Summarizer/blob/main/src/images/demo.png" width="80%" /> 
+
+
 ## Future Developments
 - [ ] Parse PDFs
 - [ ] Parse IOC's from an image
