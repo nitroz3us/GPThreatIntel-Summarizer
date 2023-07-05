@@ -48,6 +48,11 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 ## Why am I doing this?
 - Wanted to try out OpenAI API & FastAPI
 
+## Technologies Used
+- OpenAI
+- FastAPI
+- TailwindCSS
+
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
 
