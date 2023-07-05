@@ -45,6 +45,9 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 - [ ] Parse IOC's from an image
 - [ ] Generate a report based on the IOC's given
 
+## Why am I doing this?
+- Wanted to try out OpenAI API
+
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
 
