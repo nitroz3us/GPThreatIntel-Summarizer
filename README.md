@@ -44,6 +44,8 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 
 <img src="https://github.com/nitroz3us/GPThreatIntel-Summarizer/blob/main/src/images/demo.jpg" width="100%" /> 
 
+## Ongoing Developments
+- [ ] Integrating OpenAI model into the system
 
 ## Future Developments
 - [ ] Parse PDFs
