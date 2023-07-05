@@ -5,7 +5,7 @@ GPThreatIntel-Summarizer is a Python-based repository that leverages the power o
 ## Key Features
 
 - Utilizes OpenAI GPT models ([text-davinci-003](https://platform.openai.com/docs/models/overview)) for natural language processing and summarization tasks.
-- Extracts relevant text from CTI reports using #BeautifulSoup.
+- Extracts relevant text from CTI reports using [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 - Generates summarized reports based on user-defined length or word count.
 - Extracts Indicators of Compromise (IOCs) and Tactics, Techniques, and Procedures (TTPs) from reports.
 - Provides an intuitive web interface powered by [FastAPI](https://fastapi.tiangolo.com/) for easy interaction and display of results.
