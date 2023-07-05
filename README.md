@@ -42,7 +42,7 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 
 ## Demo (unfinished)
 
-<img src="https://github.com/nitroz3us/GPThreatIntel-Summarizer/blob/main/src/images/demo.jpg" width="90%" /> 
+<img src="https://github.com/nitroz3us/GPThreatIntel-Summarizer/blob/main/src/images/demo.jpg" width="100%" /> 
 
 
 ## Future Developments
