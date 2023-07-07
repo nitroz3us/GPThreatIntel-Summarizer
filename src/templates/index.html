@@ -66,7 +66,6 @@
         </h1>
         <span class="text-xl flex justify-center" id="typewriter"></span>
       </div>
-
       <form action="/" method="post">
         <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
           <!-- <label for="email" class="block mb-2 text-sm font-medium text-white"
@@ -91,9 +90,8 @@
         </div>
       </form>
 
-      <div class="card">
+      <div class="card result-body" onclick="copyClipboard()">
         <a
-          href="#"
           class="mt-4 mb-6 ml-32 mr-32 block p-6 border border-sky-900 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
         >
           {% if result %}
@@ -122,7 +120,6 @@
         cursor: {
           speed: 700,
           size: "larger",
-          id: "Some_TypeWriter_CSS",
           enabled: true,
         },
         timeout: 50,
@@ -137,6 +134,20 @@
         .wait(2000)
         .removeAll()
         .start();
+
+      // Copy to clipboard
+      function copyClipboard() {
+        const result_body = document.querySelector(".result");
+        const range = document.createRange();
+        range.selectNode(result_body);
+        // get the value of the result_body
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("copy");
+        // javascript alert the copied text
+        alert("Copied to clipboard");
+      }
     </script>
   </body>
 </html>
