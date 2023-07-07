@@ -1,14 +1,22 @@
+# /**
+#  * @license MIT
+#  * 
+#  * Written by nitroz3us
+#  * Github: https://github.com/nitroz3us
+#  * Repository: https://github.com/nitroz3us/GPThreatIntel-Summarizer
+#  * 
+#  * You're free to use this library as long as you keep this statement in this file
+#  */
+
 import openai
 import uvicorn
 import requests
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseSettings
 from bs4 import BeautifulSoup
-
-
 
 class Settings(BaseSettings):
     OPENAI_API_KEY: str = 'OPENAI_API_KEY'
@@ -57,8 +65,9 @@ def index(request: Request):
 async def index(request: Request, url: str= Form(...)):
     #display the extracted text inputted by the user in a textfield form
     result = extract_text(url)
+    
     print(result)
-    return templates.TemplateResponse("index.html", {"request": request, "result": result})
+    return templates.TemplateResponse("index.html", {"request": request, "result": result, "url": url})
 
 if __name__ == "__main__":
     uvicorn.run('app:app', host="localhost", port=5001, reload=True)

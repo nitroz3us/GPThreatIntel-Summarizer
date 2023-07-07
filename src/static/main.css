@@ -1,7 +1,0 @@
-div#loading {
-  width: 35px;
-  height: 35px;
-  display: none;
-  background: url(/favicon.ico) no-repeat;
-  cursor: wait;
-  }

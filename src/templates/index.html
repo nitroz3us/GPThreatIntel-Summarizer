@@ -1,10 +1,19 @@
+<!-- /**
+ * @license MIT
+ * 
+ * Written by nitroz3us
+ * Github: https://github.com/nitroz3us
+ * Repository: https://github.com/nitroz3us/GPThreatIntel-Summarizer
+ * 
+ * You're free to use this library as long as you keep this statement in this file
+ */ -->
 <!DOCTYPE html>
 <html class="bg-zinc-950 text-white font-sans">
   <head>
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="/static/TypeWriter.js"></script>
     <link rel="icon" href="/static/favicon.ico" />
-
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
   <body>
@@ -16,7 +25,7 @@
         >
           <a href="/" class="flex">
             <span
-              class="self-center text-xl font-semibold whitespace-nowrap text-white"
+              class="self-center text-xl font-semibold whitespace-nowrap hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
               >GPThreatIntel</span
             >
           </a>
@@ -29,7 +38,7 @@
             >
               <li>
                 <a
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-800 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 md:hover:text-gray-500 text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  class="block py-2 pl-3 pr-4 text-gray-900 hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
                   >About</a
                 >
               </li>
@@ -37,7 +46,7 @@
                 <a
                   href="https://github.com/nitroz3us/GPThreatIntel-Summarizer"
                   target="_blank"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-700 md:p-0 text-white md:hover:text-gray-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
                   >GitHub</a
                 >
               </li>
@@ -55,9 +64,7 @@
           with&nbsp
           <span class="text-sky-500">AI</span>
         </h1>
-        <p class="text-xl flex justify-center">
-          Speed up analyst process by using this tool
-        </p>
+        <span class="text-xl flex justify-center" id="typewriter"></span>
       </div>
 
       <form action="/" method="post">
@@ -68,10 +75,13 @@
           <input
             type="text"
             name="url"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-4 bg-zinc-950 border-gray-600 placeholder-gray-400 text-white mr-4"
-            placeholder="www.example.com"
+            class="border border-gray-600 text-sm rounded-lg block w-full p-4 bg-zinc-950 placeholder-gray-500 text-white mr-4"
+            placeholder="https://www.darkreading.com/"
+            value="{{ url }}"
             required
+            pattern="https?://.+"
           />
+
           <button
             type="submit"
             class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
@@ -87,9 +97,8 @@
           class="mt-4 mb-6 ml-32 mr-32 block p-6 border border-sky-900 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
         >
           {% if result %}
-          <div class="text-xl">Summary</div>
+          <div class="text-xl">Executive Summary</div>
           <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700" />
-
           <div class="result font-normal text-gray-300">{{ result }}</div>
           {% else %}
           <div class="result font-normal text-white flex justify-center">
@@ -107,5 +116,27 @@
       <div class="result">{{ result }}</div>
       {% endif %} -->
     </div>
+    <script type="text/javascript">
+      new TypeWriter(`#typewriter`, {
+        loop: true,
+        cursor: {
+          speed: 700,
+          size: "larger",
+          id: "Some_TypeWriter_CSS",
+          enabled: true,
+        },
+        timeout: 50,
+      })
+        .write(`Speed up analyst process by using this tool`)
+        .wait(2000)
+        .removeAll()
+        .write(`Summarize your report in seconds`)
+        .wait(2000)
+        .removeAll()
+        .write(`Enter URL of your report`)
+        .wait(2000)
+        .removeAll()
+        .start();
+    </script>
   </body>
 </html>
