@@ -13,6 +13,13 @@
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="/static/TypeWriter.js"></script>
+    <script type="text/javascript" src="/static/main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="https://unpkg.com/create-file-list"></script>
+    <script></script>
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
@@ -66,11 +73,9 @@
         </h1>
         <span class="text-xl flex justify-center" id="typewriter"></span>
       </div>
-      <form action="/" method="post">
+
+      <form action="/" method="post" id="myForm">
         <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
-          <!-- <label for="email" class="block mb-2 text-sm font-medium text-white"
-            >Your email</label
-          > -->
           <input
             type="text"
             name="url"
@@ -83,28 +88,27 @@
 
           <button
             type="submit"
-            class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            class="submit text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             GO
           </button>
         </div>
       </form>
 
-      <div class="card result-body" onclick="copyClipboard()">
+      <div class="card result-body">
         <a
           class="mt-4 mb-6 ml-32 mr-32 block p-6 border border-sky-900 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
         >
-          {% if result %}
-          <div class="text-xl">Executive Summary</div>
-          <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700" />
-          <div class="result font-normal text-gray-300">{{ result }}</div>
-          {% else %}
-          <div class="result font-normal text-white flex justify-center">
+          <div
+            id="responseBody"
+            class="result font-normal text-white flex justify-center"
+            onclick="copyClipboard()"
+          >
             NO SUMMARY YET
           </div>
-          {% endif %}
         </a>
       </div>
+
       <!-- <h3>Enter URL</h3>
       <form action="/" method="post">
         <input type="text" name="url" placeholder="Enter Report URL" required />
@@ -114,9 +118,10 @@
       <div class="result">{{ result }}</div>
       {% endif %} -->
     </div>
+
     <script type="text/javascript">
       new TypeWriter(`#typewriter`, {
-        loop: true,
+        loop: false,
         cursor: {
           speed: 700,
           size: "larger",
@@ -132,22 +137,7 @@
         .removeAll()
         .write(`Enter URL of your report`)
         .wait(2000)
-        .removeAll()
         .start();
-
-      // Copy to clipboard
-      function copyClipboard() {
-        const result_body = document.querySelector(".result");
-        const range = document.createRange();
-        range.selectNode(result_body);
-        // get the value of the result_body
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        document.execCommand("copy");
-        // javascript alert the copied text
-        alert("Copied to clipboard");
-      }
     </script>
   </body>
 </html>

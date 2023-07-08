@@ -67,7 +67,8 @@ async def index(request: Request, url: str= Form(...)):
     result = extract_text(url)
     
     print(result)
-    return templates.TemplateResponse("index.html", {"request": request, "result": result, "url": url})
+    return result
+    # return templates.TemplateResponse("index.html", {"request": request, "result": result, "url": url})
 
 if __name__ == "__main__":
     uvicorn.run('app:app', host="localhost", port=5001, reload=True)
