@@ -76,15 +76,40 @@
 
       <form action="/" method="post" id="myForm">
         <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
-          <input
+          <textarea
             type="text"
-            name="url"
+            name="data"
             class="border border-gray-600 text-sm rounded-lg block w-full p-4 bg-zinc-950 placeholder-gray-500 text-white mr-4"
-            placeholder="https://www.darkreading.com/"
-            value="{{ url }}"
+            placeholder="https://www.darkreading.com OR copy paste your texts"
+            value="{{ data }}"
             required
             pattern="https?://.+"
-          />
+          ></textarea>
+          <div class="mr-5 ml-2">
+            <label
+              for="steps-range"
+              class="mb-2 text-sm font-medium text-white"
+              for="word_count"
+              >Summarize in (100-1000) words:
+            </label>
+            <input
+              id="word_count"
+              name="word_count"
+              type="range"
+              min="100"
+              max="1000"
+              value="500"
+              step="100"
+              class="slider w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700"
+            />
+            <label
+              id="word_count_value"
+              for="steps-range"
+              class="mb-2 text-sm font-medium text-white"
+              >500</label
+            >
+            <label for="">words</label>
+          </div>
 
           <button
             type="submit"
@@ -135,7 +160,7 @@
         .write(`Summarize your report in seconds`)
         .wait(2000)
         .removeAll()
-        .write(`Enter URL of your report`)
+        .write(`Enter URL of your report OR copy paste your texts`)
         .wait(2000)
         .start();
     </script>

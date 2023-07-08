@@ -88,6 +88,7 @@ function dataFileDnD() {
     };
 }
 
+// Submit form
 function submitForm() {
     var formElement = document.getElementById("myForm");
     var data = new FormData(formElement);
@@ -105,3 +106,14 @@ function submitForm() {
         console.error(error);
       });
   }
+
+// Word count slider
+window.onload = function () {
+    const wordCountSlider = document.getElementById("word_count");
+    const wordCountValue = document.getElementById("word_count_value");
+    wordCountSlider.oninput = function () {
+        wordCountValue.innerHTML = this.value;
+        console.log(this.value)
+    };
+}   
+
