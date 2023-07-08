@@ -80,10 +80,15 @@ function dataFileDnD() {
 
             return blobUrl;
         },
+        // addFiles(e) {
+        //     const files = createFileList([...this.files], [...e.target.files]);
+        //     this.files = files;
+        //     this.form.formData.files = [...files];
+        // }
         addFiles(e) {
-            const files = createFileList([...this.files], [...e.target.files]);
-            this.files = files;
-            this.form.formData.files = [...files];
+            const files = [...e.target.files].filter(file => file.type === 'application/pdf');
+            this.files = createFileList([...this.files], files);
+            this.form.formData.files = [...this.files];
         }
     };
 }
