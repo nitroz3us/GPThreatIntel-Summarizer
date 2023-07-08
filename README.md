@@ -37,7 +37,7 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 ## Usage
 - Enter the URL or the text content of the CTI report in the provided text field.
 - Specify the desired length or word count for the summary.
-- Click the "Summarize" button to generate a summary of the report.
+- Click the "Go" button to generate a summary of the report.
 - The extracted IOCs and TTPs will be displayed below the summarized report.
 
 ## Demo (unfinished)
