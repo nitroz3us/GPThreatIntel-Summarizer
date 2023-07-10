@@ -85,11 +85,17 @@ function dataFileDnD() {
         //     this.files = files;
         //     this.form.formData.files = [...files];
         // }
+        // addFiles(e) {
+        //     const files = [...e.target.files].filter(file => file.type === 'application/pdf');
+        //     this.files = createFileList([...this.files], files);
+        //     this.form.formData.files = [...this.files];
+        // }
         addFiles(e) {
-            const files = [...e.target.files].filter(file => file.type === 'application/pdf');
+            const files = [...e.target.files].filter((file) => file.type === "application/pdf");
             this.files = createFileList([...this.files], files);
-            this.form.formData.files = [...this.files];
-        }
+            this.formData = new FormData();
+            this.formData.append("files", ...files);
+          },
     };
 }
 

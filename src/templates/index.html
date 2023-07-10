@@ -14,12 +14,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="/static/TypeWriter.js"></script>
     <script type="text/javascript" src="/static/main.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://unpkg.com/create-file-list"></script>
-    <script></script>
+
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
@@ -83,7 +81,8 @@
         </button>
       </div>
 
-      <form action="/" method="post" id="myForm">
+      <form action="/" method="post" enctype="multipart/form-data" id="myForm"
+      >
         <div class="flex justify-center mt-4 mb-6 ml-32 mr-32">
           <textarea
             type="text"
@@ -100,13 +99,18 @@
             <div x-data="dataFileDnD()" class="relative flex flex-col p-4 text-gray-400 border border-gray-700 rounded">
                 <div x-ref="dnd"
                     class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointer">
-                    <input accept=".pdf" type="file"
+                    <input 
+                        accept=".pdf" 
+                        type="file"
+                        name="file_upload"
+                        id="dragDropInput"
                         class="absolute inset-0 z-50 w-full h-full p-0 m-0 outline-none opacity-0 cursor-pointer"
                         @change="addFiles($event)"
                         @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
                         @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
                         @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
-                        title="" />
+                        title="" 
+                        disabled/>
             
                     <div class="flex flex-col items-center justify-center py-10 text-center">
                         <svg class="w-6 h-6 mr-1 text-current-50" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -222,14 +226,6 @@
         </a>
       </div>
 
-      <!-- <h3>Enter URL</h3>
-      <form action="/" method="post">
-        <input type="text" name="url" placeholder="Enter Report URL" required />
-        <button type="submit">Summarize Report</button>
-      </form>
-      {% if result %}
-      <div class="result">{{ result }}</div>
-      {% endif %} -->
     </div>
 
     <script type="text/javascript">
@@ -255,23 +251,36 @@
       function toggleUI(){
         const dragDropDiv = document.getElementById("dragDropUI");
         const readFromTextAreaDiv = document.getElementById("readFromTextArea");
+        const dragDropInput = document.getElementById("dragDropInput");
         const toggleBtn = document.querySelector(".toggleBtn");
 
 
         if (dragDropDiv.style.display === "none") {
-          // Show the dragDropUI div and hide the readFromTextArea div
+          // Show & Enable the dragDropDiv div
           dragDropDiv.style.display = "block";
+          dragDropInput.removeAttribute("disabled");
+          // Disable readFromTextAreaDiv
+          readFromTextAreaDiv.setAttribute("disabled", "");
+          // 
           readFromTextAreaDiv.style.display = "none";
           toggleBtn.textContent = "Read from Text/URL";
+          // disable read from text area
 
         } else {
-          // Show the readFromTextArea div and hide the dragDropUI div
+          // Hide & Disable the dragDropUI div
           dragDropDiv.style.display = "none";
+          dragDropInput.setAttribute('disabled', '');
+          // enable read from text area
+          readFromTextAreaDiv.removeAttribute("disabled");
           readFromTextAreaDiv.style.display = "block";
           toggleBtn.textContent = "Read from PDF";
 
         }
       }
+
+      // let myDropzone = new Dropzone("#my-awesome-dropzone", {
+      //   paramName: "file_upload",
+      // });
     </script>
   </body>
 </html>
