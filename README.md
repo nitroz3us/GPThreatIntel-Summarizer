@@ -48,7 +48,7 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 - [ ] Integrating OpenAI model into the system
 
 ## Future Developments
-- [ ] Parse PDFs
+- [x] Parse PDFs
 - [ ] Parse IOC's from an image
 - [ ] Generate a report based on the IOC's given
 
