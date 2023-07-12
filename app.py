@@ -11,8 +11,8 @@
 import openai
 import uvicorn
 import requests
-import io
-# import PyPDF2
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Form, HTTPException, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -22,20 +22,21 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 from pypdf import PdfReader
-from typing import Annotated, Union
 
 
 UPLOAD_DIR = Path() / 'uploads'
+load_dotenv()
 
+OPENAI_KEY = os.getenv('OPENAI_API_KEY')
 
-class Settings(BaseSettings):
-    OPENAI_API_KEY: str = 'OPENAI_API_KEY'
+# class Settings(BaseSettings):
+#     OPENAI_API_KEY: str = 'OPENAI_API_KEY'
 
-    class Config:
-        env_file = '.env'
+#     class Config:
+#         env_file = '.env'
 
-settings = Settings()
-openai.api_key = settings.OPENAI_API_KEY
+# settings = Settings()
+# openai.api_key = settings.OPENAI_API_KEY
 
 app = FastAPI()
 app.add_middleware(
@@ -93,8 +94,6 @@ def index(request: Request):
 
 @app.post("/", response_class=HTMLResponse)
 async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None)):
-    # file_upload = ''
-    print(file_upload)
     if file_upload is not None:
         # Process file upload
         data = await file_upload.read()
