@@ -137,6 +137,9 @@ function dataFileDnD() {
     }
   
     showLoadingUI();
+    toast('Info', 'Processing report', toastStyles.info, 4000);
+
+
 
     // Call the API key validation endpoint
     validateApiKey(apiKey)
@@ -150,6 +153,7 @@ function dataFileDnD() {
             .then((response) => response.text())
             .then((data) => {
               // Print data onto responseBody div
+              toast('Success', 'Summary generated!', toastStyles.success, 4000);
               hideLoadingUI();
               result_card.style.display = "block";
               document.getElementById("result-body").innerHTML = data;

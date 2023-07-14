@@ -78,7 +78,7 @@ def extract_text(data):
 
 def process_text_with_openai(report, max_tokens):
     # Edit this later!
-    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses, domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) if can be found in the report. If IoCs ONLY are not found in the report, return N/A, if there are TTP's, process as per normal. Nicely format the report as markdown. Use newlines between markdown headings.",
+    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses, domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) if can be found in the report. If IoCs are not found in the report, return N/A but, if there are TTP's, list all of them with newlines. Nicely format the report as markdown. Use newlines between markdown headings.",
     # prompt += text
     text = f'{prompt}\n\n"""{report}"""'
     print("Print text & prompt: \n" + text)
