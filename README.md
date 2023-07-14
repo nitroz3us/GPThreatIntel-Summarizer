@@ -60,7 +60,14 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 - TailwindCSS
 
 ## Limitations
+- Since the OpenAI Model I am using is text-davinci-003, it has its [limitations](https://platform.openai.com/docs/models/gpt-3-5). The token limit (words) accepted are 4097 tokens.
+    - Therefore, if the text content that users want to send to the model is larger than 4097 tokens (words), the model would not be able to process it.  
 
+## Workarounds/Solutions to the limitations
+1. Implement text embedding
+2. Use a different OpenAI model, e.g. GPT3.5 Turbo, GPT4
+    - More information can be found on OpenAI's documentation here
+        - https://platform.openai.com/docs/models/overview 
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
