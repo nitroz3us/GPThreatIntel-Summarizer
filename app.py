@@ -11,13 +11,11 @@
 import openai
 import uvicorn
 import requests
-import os
 import markdown
-from fastapi import FastAPI, Request, Form, HTTPException, File, UploadFile
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import FastAPI, Request, Form, File, UploadFile
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseSettings
 from bs4 import BeautifulSoup
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
