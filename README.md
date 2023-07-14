@@ -64,7 +64,7 @@ https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/8c4c2e92-
 - TailwindCSS
 
 ## Limitations
-- Since the OpenAI Model I am using is text-davinci-003, it has its [limitations](https://platform.openai.com/docs/models/gpt-3-5). The token limit (words) accepted are 4097 tokens.
+- Since the OpenAI Model I am using is **text-davinci-003**, it has its [limitations](https://platform.openai.com/docs/models/gpt-3-5). The token limit (words) accepted are 4097 tokens.
     - Therefore, if the text content that users want to send to the model is larger than 4097 tokens (words), the model would not be able to process it.  
 
 ## Workarounds/Solutions to the limitations
