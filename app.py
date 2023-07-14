@@ -12,7 +12,7 @@ import openai
 import uvicorn
 import requests
 import os
-from dotenv import load_dotenv
+import markdown
 from fastapi import FastAPI, Request, Form, HTTPException, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -25,18 +25,6 @@ from pypdf import PdfReader
 
 
 UPLOAD_DIR = Path() / 'uploads'
-load_dotenv()
-
-OPENAI_KEY = os.getenv('OPENAI_API_KEY')
-
-# class Settings(BaseSettings):
-#     OPENAI_API_KEY: str = 'OPENAI_API_KEY'
-
-#     class Config:
-#         env_file = '.env'
-
-# settings = Settings()
-# openai.api_key = settings.OPENAI_API_KEY
 
 app = FastAPI()
 app.add_middleware(
@@ -80,20 +68,42 @@ def extract_text_from_text(text):
     # get content from html tag and return it
     return text
     
-
-
+# Handle text input and url input
 def extract_text(data):
     if data.startswith("http://") or data.startswith("https://"):
         return extract_text_from_url(data)
     else:
         return extract_text_from_text(data)
 
+
+def process_text_with_openai(report, max_tokens):
+    # Edit this later!
+    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses, domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) if can be found in the report. If IoCs ONLY are not found in the report, return N/A, if there are TTP's, process as per normal. Nicely format the report as markdown. Use newlines between markdown headings.",
+    # prompt += text
+    text = f'{prompt}\n\n"""{report}"""'
+    print("Print text & prompt: \n" + text)
+
+    result = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=text,
+        temperature=0.3,
+        max_tokens=500,
+        top_p=0.2,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    return result.choices[0].text.strip()
+
+
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/", response_class=HTMLResponse)
-async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None)):
+async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None), openAIKey: str = Form(...), word_count: int = Form(100)):
+    openai.api_key = openAIKey
+
+    # Handle PDF input
     if file_upload is not None:
         # Process file upload
         data = await file_upload.read()
@@ -113,68 +123,20 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
         output = output.replace('\n','')
         output = output.replace('"','')
 
-        print("Print PDF text: \n" + output)
-
-        return output
+        result = process_text_with_openai(output, word_count)
+        print("Print output: \n" + result)
+        result = markdown.markdown(result) 
+        return result
     if data is not None:
         # Process text/url input
         output = extract_text(data)
-        print(output)
-        return output
+        result = process_text_with_openai(output, word_count)
+        print("Print output: \n" + result)
+        result = markdown.markdown(result)
+        return result
     else:
         # Handle case when no data is provided
         return "No input data provided"
-
-    # # Integrate with OpenAI API here if needed
-    # print(output)
-
-
-# @app.post("/", response_class=HTMLResponse)
-# async def index(request: Request, data: str= Form(...)):
-#     result = extract_text(data)
-#     # Integrate with OpenAI API here soon
-#     print(result)
-#     return result
-#     return templates.TemplateResponse("index.html", {"request": request, "result": result, "url": url})
-
-# @app.post("/")
-# async def create_upload_file(file_upload: Union[UploadFile, None] = None):
-#     data = await file_upload.read()
-#     save_to = UPLOAD_DIR / file_upload.filename
-#     with open(save_to, 'wb') as f:
-#         f.write(data)
-
-#     # read the pdf file
-#     output = ""
-#     pdf = PdfReader(save_to)
-#     number_of_pages = len(pdf.pages)
-#     for i in range(number_of_pages):
-#         page = pdf.pages[i]
-#         text = page.extract_text()
-#         output += text
-#     # remove trailing spaces
-#     # Remove the /n in the output & the quotatation in the output
-#     output = output.replace('\n','')
-#     output = output.replace('"','')
-
-#     print("Print PDF text: \n" + output)
-
-#     return output
-
-# @app.post("/", response_class=HTMLResponse)
-# async def index(request: Request, data: UploadFile = File(...)):
-#     content_type = data.content_type
-#     print("Print content-type: " + content_type)
-#     if content_type.startswith("application/octet-stream"):
-#         dataRead = await data.read()
-#         result = extract_text(dataRead.decode())
-#     elif content_type == "application/pdf":
-#         result = extract_text_from_pdf(data.data)
-#     else:
-#         result = None
-    
-#     return result
-
 
 
 if __name__ == "__main__":

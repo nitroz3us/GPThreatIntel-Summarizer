@@ -1,4 +1,3 @@
-// call TypeWriter.js from another js
 function toggleUI() {
     const dragDropDiv = document.getElementById("dragDropUI");
     const readFromTextAreaDiv = document.getElementById("readFromTextArea");
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // Copy to clipboard
 function copyClipboard() {
     toastInit();
-    const result_body = document.querySelector("#responseBody");
+    const result_body = document.querySelector("#result-body");
     const range = document.createRange();
     range.selectNode(result_body);
     // get the value of the result_body
@@ -123,35 +122,13 @@ function dataFileDnD() {
     };
 }
 
-// Submit form
-function submitForm() {
-    var formElement = document.getElementById("myForm");
-    var data = new FormData(formElement);
-    var apiKey = data.get("openAIKey");
-
-    fetch("/", {
-      method: "POST",
-      body: data,
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        // print data onto responseBody div
-        document.getElementById("responseBody").innerHTML = data;
-        console.log(document.getElementById("responseBody"));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
   function submitForm() {
+    const result_card = document.querySelector("#result-card");
     var formElement = document.getElementById("myForm");
-
     var data = new FormData(formElement);
   
     // Get the API key from the form data
     var apiKey = data.get("openAIKey");
-    console.log(apiKey);
   
     if (!isValidApiKeyFormat(apiKey)) {
     //   alert("Invalid API key format.");
@@ -159,6 +136,8 @@ function submitForm() {
         return;
     }
   
+    showLoadingUI();
+
     // Call the API key validation endpoint
     validateApiKey(apiKey)
       .then((isValid) => {
@@ -171,17 +150,19 @@ function submitForm() {
             .then((response) => response.text())
             .then((data) => {
               // Print data onto responseBody div
-              document.getElementById("responseBody").innerHTML = data;
-              document.getElementById("result-body").style.display = "block";
-
-              console.log(document.getElementById("responseBody"));
+              hideLoadingUI();
+              result_card.style.display = "block";
+              document.getElementById("result-body").innerHTML = data;
             })
             .catch((error) => {
               console.error(error);
+              hideLoadingUI();
+              toast('Error', 'An error occurred while processing the data', toastStyles.error, 4000);
+
             });
         } else {
-        //   alert("Unauthorized API key.");
-          toast('Error', 'Unauthorized API key', toastStyles.error, 4000);
+            hideLoadingUI();
+            toast('Error', 'Unauthorized API key', toastStyles.error, 4000);
         }
       })
       .catch((error) => {
@@ -190,6 +171,22 @@ function submitForm() {
       });
   }
   
+  function showLoadingUI() {
+    // Show loading UI (e.g., display a spinner or show a loading message)
+    const processingBtn = document.getElementById("processingBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    processingBtn.style.display = "block";
+    submitBtn.style.display = "none";
+  }
+  
+  function hideLoadingUI() {
+    // Hide loading UI (e.g., hide the spinner or remove the loading message)
+    const submitBtn = document.getElementById("submitBtn");
+    const processingBtn = document.getElementById("processingBtn");
+    submitBtn.style.display = "block";
+    processingBtn.style.display = "none";
+  }
+
   function isValidApiKeyFormat(apiKey) {
     // Implement the validation logic for the API key format
     // Return true if the API key is valid, false otherwise
@@ -211,20 +208,7 @@ function submitForm() {
     }
   }
   
-  
-// function showResponseBody() {
-//     const result_body = document.getElementById("result-body");
-//     const content = result_body.textContent.trim();
-//     console.log(content);
-//     // if result_body is "NO SUMMARY YET", do not show
-//     // console.log(result_body.textContent);
-//     if (content === "NO SUMMARY YET") {
-//         // hide the result_body
-//         // console.log("hide");
-//         result_body.style.display = "none";
-//     }
 
-// }
 // Word count slider
 window.onload = function () {
     const wordCountSlider = document.getElementById("word_count");
