@@ -35,6 +35,8 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 4. Access the web interface in your browser at http://localhost:5001.
 
 ## Usage
+- Enter your OpenAI API Key, which can be found here
+    - https://platform.openai.com/account/api-keys
 - Enter the URL or paste the text content of the CTI report in the provided text field.
     - Alternatively, you can upload a PDF file.
 - Specify the desired length or word count for the summary.
