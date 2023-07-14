@@ -84,9 +84,9 @@ def process_text_with_openai(report, max_tokens):
     result = openai.Completion.create(
         engine="text-davinci-003",
         prompt=text,
-        temperature=0.3,
-        max_tokens=500,
-        top_p=0.2,
+        temperature=0.7,
+        max_tokens=max_tokens,
+        top_p=0.95,
         frequency_penalty=0,
         presence_penalty=0
     )
