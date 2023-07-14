@@ -44,8 +44,6 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 - The extracted IOCs and TTPs will be displayed below the summarized report.
 
 ## Demo
-<img src="https://github.com/nitroz3us/GPThreatIntel-Summarizer/blob/main/src/images/demo.jpg" width="100%" /> 
-
 
 https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/8c4c2e92-3e8a-4fe6-8404-d67e7c94d516
 
