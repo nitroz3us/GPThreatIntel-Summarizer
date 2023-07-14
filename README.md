@@ -54,6 +54,7 @@ https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/8c4c2e92-
 
 ## Future Developments
 - [ ] Parse IOC's from an image
+- [ ] Allow users to choose various GPT Models
 
 ## Why am I doing this?
 - Wanted to try out OpenAI API & FastAPI
