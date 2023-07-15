@@ -45,7 +45,8 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 
 ## Demo
 
-https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/8c4c2e92-3e8a-4fe6-8404-d67e7c94d516
+
+https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/e8327641-586b-488d-8a5a-95af125fc588
 
 
 
