@@ -1,6 +1,6 @@
 # GPThreatIntel-Summarizer
 
-GPThreatIntel-Summarizer is a Python-based repository that leverages the power of OpenAI's GPT (Generative Pre-trained Transformer) models and Cyber Threat Intelligence (CTI) to provide an automated summarization solution for threat intelligence reports. This tool simplifies the process of extracting key insights from CTI reports, enabling cyber threat analysts to generate concise and informative summaries for upper management.
+GPThreatIntel-Summarizer is a Python-based repository that leverages the power of OpenAI's GPT (Generative Pre-trained Transformer) models to provide an automated summarization solution for Cyber Threat Intelligence (CTI) reports. This tool simplifies the process of extracting key insights from CTI reports, enabling cyber threat analysts to generate concise and informative summaries for upper management.
 
 ## Key Features
 
