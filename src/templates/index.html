@@ -33,7 +33,7 @@
         >
           <a href="/" class="flex">
             <span
-              class="self-center text-xl font-semibold whitespace-nowrap hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
+              class="self-center text-xl font-semibold whitespace-nowrap hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-violet-300 text-white"
               >GPThreatIntel</span
             >
           </a>
@@ -46,7 +46,7 @@
             >
               <li>
                 <a
-                  class="block py-2 pl-3 pr-4 text-gray-900 hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
+                  class="block py-2 pl-3 pr-4 text-gray-900 hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-violet-300 text-white"
                   >About</a
                 >
               </li>
@@ -54,7 +54,7 @@
                 <a
                   href="https://github.com/nitroz3us/GPThreatIntel-Summarizer"
                   target="_blank"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-sky-500 text-white"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-sky-500 md:hover:bg-transparent md:p-0 md:hover:text-violet-300 text-white"
                   >GitHub</a
                 >
               </li>
@@ -64,20 +64,38 @@
       </nav>
     </div>
 
-    <div class="h-screen mt-20 m-10">
-      <div class="header-container mb-14">
-        <h1 class="text-4xl flex justify-center mb-2 font-semibold">
-          Streamline&nbsp
-          <span class="text-sky-500">Cyber Threat Intelligence&nbsp</span>
-          with&nbsp
-          <span class="text-sky-500">AI</span>
+    <div class="main-body fade-in-down h-screen mt-20 m-10">
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="w-full font-semibold text-white text-xl md:text-4xl text-center">
+          Streamline
+          <a
+            href=""
+            target="_blank"
+            class="text-violet-400"
+            >Cyber Threat Intelligence</a
+          >
+          with
+          <a
+            href=""
+            target="_blank"
+            class="text-violet-400"
+            >AI</a
+          >
         </h1>
-        <span class="text-xl flex justify-center" id="typewriter"></span>
+        <span class="text-center text-sm md:text-xl text-white mt-2"
+          >Summarize your report in seconds. Hosted on
+          <a
+            href="https://vercel.com/"
+            target="_blank"
+            class="text-violet-400 font-bold"
+            >Vercel.</a
+          >
+        </span>
       </div>
       <div class="flex justify-center">
         <button
           type="button"
-          class="toggleBtn mr-2 mt-2 mb-10 hover:scale-105 text-lg border border-sky-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"
+          class="toggleBtn mt-10 mb-10 hover:scale-105 text-md border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"      
           onclick="toggleUI()"
         >
           Read from PDF
@@ -257,11 +275,11 @@
             <label for="">words</label>
           </div>
         </div>
-        <div class="ml-32 mr-32 mb-10">
+        <div class="ml-32 mr-32 mb-7">
           <div class="mb-2 text-lg">
             <label for="openAIKey">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
           </div>
-          <label for="openAIKey" class="text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-sky-500">https://platform.openai.com/account/api-keys</a></label>
+          <label for="openAIKey" class="text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
 
           <input
           type="password"
@@ -275,7 +293,7 @@
         <div class="ml-32 mr-32 mb-12">
           <button
             type="submit"
-            class="submit text-white bg-sky-700 hover:bg-sky-800 focus:ring-1 focus:outline-none focus:ring-sky-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
+            class="submit text-white bg-violet-700 hover:bg-violet-800 focus:ring-1 focus:outline-none focus:ring-sky-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
             id="submitBtn"            
             >
             Summarize
@@ -306,25 +324,6 @@
     </div>
     <script type="text/javascript">
       toastInit();
-
-      new TypeWriter(document.getElementById("typewriter"), {
-        loop: false,
-        cursor: {
-          speed: 700,
-          size: "larger",
-          enabled: true,
-        },
-        timeout: 50,
-      })
-        .write(`Speed up analyst process by using this tool`)
-        .wait(2000)
-        .removeAll()
-        .write(`Summarize your report in seconds`)
-        .wait(2000)
-        .removeAll()
-        .write(`Enter URL of your report OR copy paste your texts`)
-        .wait(2000)
-        .start();
     </script>
   </body>
 </html>
