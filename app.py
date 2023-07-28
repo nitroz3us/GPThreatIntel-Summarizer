@@ -12,6 +12,8 @@ import openai
 import uvicorn
 import requests
 import markdown
+import pdfplumber
+import io
 from fastapi import FastAPI, Request, Form, File, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -19,10 +21,9 @@ from fastapi.staticfiles import StaticFiles
 from bs4 import BeautifulSoup
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
-from pypdf import PdfReader
 
 
-UPLOAD_DIR = Path() / 'uploads'
+# UPLOAD_DIR = Path() / 'uploads'
 
 app = FastAPI()
 app.add_middleware(
@@ -76,7 +77,7 @@ def extract_text(data):
 
 def process_text_with_openai(report, max_tokens):
     # Edit this later!
-    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses, domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) if can be found in the report. If IoCs are not found in the report, return N/A but, if there are TTP's, list all of them with newlines. Nicely format the report as markdown. Use newlines between markdown headings.",
+    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not found, please do not create one, but if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.",
     # prompt += text
     text = f'{prompt}\n\n"""{report}"""'
     print("Print text & prompt: \n" + text)
@@ -105,21 +106,12 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
     if file_upload is not None:
         # Process file upload
         data = await file_upload.read()
-        save_to = UPLOAD_DIR / file_upload.filename
-        with open(save_to, 'wb') as f:
-            f.write(data)
 
         # read the pdf file
+        pdf_data = pdfplumber.open(io.BytesIO(data))
         output = ""
-        pdf = PdfReader(save_to)
-        number_of_pages = len(pdf.pages)
-        for i in range(number_of_pages):
-            page = pdf.pages[i]
-            text = page.extract_text()
-            output += text
-        # Remove the /n in the output & the quotatation in the output
-        output = output.replace('\n','')
-        output = output.replace('"','')
+        for page in pdf_data.pages:
+            output += page.extract_text()
 
         result = process_text_with_openai(output, word_count)
         print("Print output: \n" + result)
@@ -137,5 +129,5 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
         return "No input data provided"
 
 
-if __name__ == "__main__":
-    uvicorn.run('app:app', host="localhost", port=5001, reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run('app:app', host="localhost", port=5001, reload=True)
