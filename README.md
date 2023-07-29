@@ -49,10 +49,6 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
 https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/e8327641-586b-488d-8a5a-95af125fc588
 
 
-
-## Ongoing Developments
-- [ ] Deploy the application online
-
 ## Future Developments
 - [ ] Parse IOC's from an image
 - [ ] Allow users to choose various GPT Models
