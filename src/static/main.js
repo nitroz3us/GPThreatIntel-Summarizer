@@ -171,7 +171,7 @@ function dataFileDnD() {
       })
       .catch((error) => {
         console.error(error);
-        alert("An error occurred while checking the API key.");
+        toast('Error', 'An error occurred while checking the API key.', toastStyles.error, 4000);
       });
   }
   
@@ -217,6 +217,17 @@ function dataFileDnD() {
 window.onload = function () {
     const wordCountSlider = document.getElementById("word_count");
     const wordCountValue = document.getElementById("word_count_value");
+    const selectElement = document.getElementById("model");
+
+    // Get the selected value
+    const selectedValue = selectElement.value;
+    selectElement.onchange = function () {
+        const selectedValue = selectElement.value;
+        console.log("Selected Model: " + selectedValue);
+    }
+    // Log the selected value
+    // console.log("Selected Model: " + selectedValue);
+    
     wordCountSlider.oninput = function () {
         wordCountValue.innerHTML = this.value;
         console.log(this.value)

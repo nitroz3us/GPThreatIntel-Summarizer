@@ -10,6 +10,8 @@
 <!DOCTYPE html>
 <html class="bg-zinc-950 text-white font-sans">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="/static/main.js"></script>
@@ -102,12 +104,12 @@
       </div>
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex flex-col justify-center mt-10">
+        <div class="flex justify-center mt-10">
           <textarea
             type="text"
             name="data"
             id="readFromTextArea"
-            class="border border-violet-400 text-sm rounded-lg block p7 w-full h-32 p-4 bg-zinc-950 placeholder-gray-500 text-white"
+            class="border border-violet-400 text-sm rounded-lg block p7 w-full h-44 p-4 bg-zinc-950 placeholder-gray-500 text-white"
             placeholder="https://www.darkreading.com OR copy paste your texts"
             value="{{ data }}"
             required
@@ -244,6 +246,53 @@
               </template>
             </div>
           </div>
+          <div class="flex flex-col ml-6">
+            <div class="">
+              <label for="model" class="text-md font-medium text-white">Model</label>
+              <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-full p-2.5">
+                <option value="text-davinci-003">text-davinci-003 (4k)</option>
+                <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
+                <option value="gpt-3.5-turbo-16k">GPT3.5 (turbo-16k)</option>
+                <option value="gpt-4">GPT4 (8k)</option>
+                <option value="gpt-4-32k">GPT4 (32k)</option>
+              </select>
+            </div>
+            <div class="p7 w-full mt-7">
+              <label
+                for="steps-range"
+                class="text-md font-medium text-white"
+                for="word_count"
+                >Summarize in (100-1000) words:
+              </label>
+              <input
+                id="word_count"
+                name="word_count"
+                type="range"
+                min="100"
+                max="1000"
+                value="500"
+                step="100"
+                class="slider w-full h-2 rounded-lg appearance-none accent-violet-500 cursor-pointer bg-gray-300"
+              />
+              <label
+                id="word_count_value"
+                for="steps-range"
+                class="text-md font-medium text-white"
+                >500</label
+              >
+              <label for="">words</label>
+            </div> 
+          </div>
+          <!-- <div class="mt-6">
+            <label for="model" class="text-md font-medium text-white">Model</label>
+            <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-3/12 p-2.5">
+              <option value="text-davinci-003">text-davinci-003 (4k)</option>
+              <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
+              <option value="gpt-3.5-turbo-16k">GPT3.5 (turbo-16k)</option>
+              <option value="gpt-4">GPT4 (8k)</option>
+              <option value="gpt-4-32k">GPT4 (32k)</option>
+            </select>
+          </div>
           <div class="mt-8 p7 w-6/12">
             <label
               for="steps-range"
@@ -259,7 +308,7 @@
               max="1000"
               value="500"
               step="100"
-              class="slider w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700"
+              class="slider w-full h-2 rounded-lg appearance-none accent-violet-500 cursor-pointer bg-gray-300"
             />
             <label
               id="word_count_value"
@@ -268,7 +317,8 @@
               >500</label
             >
             <label for="">words</label>
-          </div>
+          </div> -->
+          
         </div>
         <div class="p7 w-full mt-6">
           <div class="text-lg">

@@ -75,19 +75,20 @@ def extract_text(data):
         return extract_text_from_text(data)
 
 
-def process_text_with_openai(report, max_tokens):
+def process_text_with_openai(report, max_tokens, model):
     # Edit this later!
     prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not found, please do not create one, but if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.",
     # prompt += text
     text = f'{prompt}\n\n"""{report}"""'
     print("Print text & prompt: \n" + text)
 
+    # fix this later, try catch
     result = openai.Completion.create(
-        engine="text-davinci-003",
+        engine=model,
         prompt=text,
-        temperature=0.7,
+        temperature=0.3,
         max_tokens=max_tokens,
-        top_p=0.95,
+        top_p=0.2,
         frequency_penalty=0,
         presence_penalty=0
     )
@@ -99,8 +100,9 @@ def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/", response_class=HTMLResponse)
-async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None), openAIKey: str = Form(...), word_count: int = Form(100)):
+async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None), openAIKey: str = Form(...), word_count: int = Form(100), model: str = Form(...)):
     openai.api_key = openAIKey
+
 
     # Handle PDF input
     if file_upload is not None:
@@ -113,14 +115,14 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
         for page in pdf_data.pages:
             output += page.extract_text()
 
-        result = process_text_with_openai(output, word_count)
+        result = process_text_with_openai(output, word_count, model)
         print("Print output: \n" + result)
         result = markdown.markdown(result) 
         return result
-    if data is not None:
+    if data is not None:    
         # Process text/url input
         output = extract_text(data)
-        result = process_text_with_openai(output, word_count)
+        result = process_text_with_openai(output, word_count, model)
         print("Print output: \n" + result)
         result = markdown.markdown(result)
         return result
