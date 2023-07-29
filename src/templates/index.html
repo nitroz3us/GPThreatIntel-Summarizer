@@ -12,7 +12,6 @@
   <head>
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="/static/TypeWriter.js"></script>
     <script type="text/javascript" src="/static/main.js"></script>
     <script type="text/javascript" src="/static/SimpleToast.js"></script>
     <script
@@ -27,9 +26,9 @@
   <body>
     <!-- Navigation Header -->
     <div class="top_nav">
-      <nav class="border-gray-200 bg-zinc-900 border-gray-600 border-b">
+      <nav class=" bg-zinc-950 border-gray-600">
         <div
-          class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+          class="top-0 left-0 flex flex-row justify-between bg-darkest w-screen p-5"
         >
           <a href="/" class="flex">
             <span
@@ -64,30 +63,30 @@
       </nav>
     </div>
 
-    <div class="main-body fade-in-down h-screen mt-20 m-10">
+    <div class="main-body fade-in-down mx-4 mt-12 sm:mx-8 md:mx-32 lg:mx-48">
       <div class="flex flex-col justify-center items-center">
         <h1 class="w-full font-bold text-white text-xl md:text-4xl text-center">
           Streamline
           <a
             href=""
             target="_blank"
-            class="text-violet-400"
+            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
             >Cyber Threat Intelligence</a
           >
           with
           <a
             href=""
             target="_blank"
-            class="text-violet-400"
+            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
             >AI</a
           >
         </h1>
-        <span class="text-center font-sans text-sm md:text-xl text-white mt-2"
+        <span class="text-center text-sm md:text-xl text-white mt-2"
           >Summarize your report in seconds. Hosted on
           <a
             href="https://vercel.com/"
             target="_blank"
-            class="text-violet-400 font-bold"
+            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
             >Vercel.</a
           >
         </span>
@@ -95,7 +94,7 @@
       <div class="flex justify-center">
         <button
           type="button"
-          class="toggleBtn mt-10 mb-10 hover:scale-105 text-md border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"      
+          class="toggleBtn mt-10 hover:scale-105 text-md border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"      
           onclick="toggleUI()"
         >
           Read from PDF
@@ -103,37 +102,33 @@
       </div>
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex justify-center mt-4 mb-8 ml-32 mr-32">
+        <div class="flex flex-col justify-center mt-10">
           <textarea
             type="text"
             name="data"
             id="readFromTextArea"
-            class="border border-gray-600 text-sm rounded-lg block w-full h-24 p-4 bg-zinc-950 placeholder-gray-500 text-white mr-4"
+            class="border border-gray-600 text-sm rounded-lg block p7 w-full h-32 p-4 bg-zinc-950 placeholder-gray-500 text-white"
             placeholder="https://www.darkreading.com OR copy paste your texts"
             value="{{ data }}"
             required
             pattern="https?://.+"
           ></textarea>
           <!-- DragDropUI -->
-          <div
-            id="dragDropUI"
-            class="bg-gray-900 p7 rounded w-9/12 mx-auto mr-4"
-            style="display: none"
-          >
+          <div id="dragDropUI" class="bg-gray-900 p7 rounded w-full" style="display: none;">
             <div
               x-data="dataFileDnD()"
-              class="relative flex flex-col p-4 text-gray-400 border border-gray-700 rounded"
+              class="relative flex flex-col p-4 text-gray-400 border-2 border-violet-400 rounded-lg"
             >
               <div
                 x-ref="dnd"
-                class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointer"
+                class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
               >
                 <input
                   accept=".pdf"
                   type="file"
                   name="file_upload"
                   id="dragDropInput"
-                  class="absolute inset-0 z-50 w-full h-full p-0 m-0 outline-none opacity-0 cursor-pointer"
+                  class="absolute inset-0 z-50 w-full h-full p-0 m-5 outline-none opacity-0 cursor-pointer"
                   @change="addFiles($event)"
                   @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
                   @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
@@ -176,7 +171,7 @@
                     x-for="(_, index) in Array.from({ length: files.length })"
                   >
                     <div
-                      class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
+                      class="relative flex flex-col items-center overflow-hidden text-center bg-gray-600 border rounded cursor-move select-none"
                       style="padding-top: 100%"
                       @dragstart="dragstart($event)"
                       @dragend="fileDragging = null"
@@ -249,10 +244,10 @@
               </template>
             </div>
           </div>
-          <div class="mr-5 ml-2">
+          <div class="mt-8 p7 w-6/12">
             <label
               for="steps-range"
-              class="mb-2 text-md font-medium text-white"
+              class="text-md font-medium text-white"
               for="word_count"
               >Summarize in (100-1000) words:
             </label>
@@ -269,14 +264,14 @@
             <label
               id="word_count_value"
               for="steps-range"
-              class="mb-2 text-md font-medium text-white"
+              class="text-md font-medium text-white"
               >500</label
             >
             <label for="">words</label>
           </div>
         </div>
-        <div class="ml-32 mr-32 mb-7">
-          <div class="mb-2 text-lg">
+        <div class="p7 w-full mt-6">
+          <div class="text-lg">
             <label for="openAIKey">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
           </div>
           <label for="openAIKey" class="text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
@@ -290,10 +285,10 @@
           required
         ></input>
         </div>
-        <div class="ml-32 mr-32 mb-12">
+        <div class="p7 w-full mt-7">
           <button
             type="submit"
-            class="submit text-white bg-violet-700 hover:bg-violet-800 focus:ring-1 focus:outline-none focus:ring-sky-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
+            class="submit text-white bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
             id="submitBtn"            
             >
             Summarize
@@ -312,7 +307,7 @@
       </form>
       <div id="result-card" style="display: none;">
         <a
-          class="mt-4 mb-6 ml-32 mr-32 p-6 border block border-sky-900 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
+          class="mt-4 p-6 border block border-violet-300 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
         >
           <div class="result-body markdown px-6" id="result-body" onclick="copyClipboard()" style="position: relative;">
           </div>
