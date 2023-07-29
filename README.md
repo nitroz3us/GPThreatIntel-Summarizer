@@ -10,7 +10,7 @@ GPThreatIntel-Summarizer is a Python-based repository that leverages the power o
 - Extracts Indicators of Compromise (IOCs) and Tactics, Techniques, and Procedures (TTPs) from reports.
 - Provides an intuitive web interface powered by [FastAPI](https://fastapi.tiangolo.com/) for easy interaction and display of results.
 
-## Getting Started
+## Getting Started (Locally)
 
 To get started with GPThreatIntel-Summarizer, follow these steps:
 
@@ -33,6 +33,11 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
     ```
     
 4. Access the web interface in your browser at http://localhost:5001.
+
+## Getting Started (Online)
+
+1. Access the web interface in your browser at https://gp-threat-intel-summarizer.vercel.app/
+
 
 ## Usage
 - Enter your OpenAI API Key, which can be found here
