@@ -104,8 +104,8 @@
       </div>
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex flex-col h-64 md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
-          <div class="w-full md:w-2/3">
+        <div class="flex flex-col md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
+          <div class="w-full md:w-2/3 min-h-64 md:h-64">
             <textarea
               type="text"
               name="data"
@@ -131,7 +131,7 @@
                     type="file"
                     name="file_upload"
                     id="dragDropInput"
-                    class="absolute inset-0 z-50 w-full h-full p-0 m-5 outline-none opacity-0 cursor-pointer"
+                    class="absolute inset-0 z-50 w-full h-full p-0 outline-none opacity-0 cursor-pointer"
                     @change="addFiles($event)"
                     @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
                     @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
