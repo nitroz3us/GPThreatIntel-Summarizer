@@ -137,8 +137,6 @@ function dataFileDnD() {
     }
   
     showLoadingUI();
-    toast('Info', 'Processing report', toastStyles.info, 4000);
-
 
 
     // Call the API key validation endpoint
