@@ -43,7 +43,7 @@
             class="items-center justify-between md:flex"
           >
             <ul
-              class="flex flex-row p-4 md:p-0 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0 ml-auto"
+              class="flex flex-row pl-4 pr-0 py-4 md:p-0 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0 ml-auto"
             >
               <li>
                 <a
@@ -110,14 +110,14 @@
               type="text"
               name="data"
               id="readFromTextArea"
-              class="border border-violet-400 text-sm rounded-lg block p7 w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
+              class="border border-violet-400 text-sm rounded-lg block w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
               placeholder="https://www.darkreading.com OR copy paste your texts"
               value="{{ data }}"
               required
               pattern="https?://.+"
             ></textarea>
             <!-- DragDropUI -->
-            <div id="dragDropUI" class="bg-gray-900 p7 rounded w-full" style="display: none;">
+            <div id="dragDropUI" class="bg-gray-900 rounded w-full" style="display: none;">
               <div
                 x-data="dataFileDnD()"
                 class="relative flex flex-col p-4 text-gray-400 border border-violet-400 rounded-lg"
@@ -259,7 +259,7 @@
                 <option value="gpt-4-32k">GPT4 (32k)</option>
               </select>
             </div>
-            <div class="p7 w-full mt-7">
+            <div class="w-full mt-7">
               <label
                 for="steps-range"
                 class="text-sm md:text-base text-white font-medium"
@@ -286,7 +286,7 @@
             </div> 
           </div>
         </div>
-        <div class="p7 w-full mt-6">
+        <div class="w-full mt-6">
           <div class="text-sm md:text-lg">
             <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
           </div>
@@ -301,14 +301,13 @@
           required
         ></input>
         </div>
-        <div class="p7 w-full mt-7">
+        <div class="w-full mt-7 mb-7">
           <button
             type="submit"
             class="submit text-white bg-gradient-to-r from-indigo-500 to-purple-500 focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-base w-full px-5 py-2.5 text-center"
             id="submitBtn"            
             >
-            Summarize
-            
+            Summarize  
           </button>
           <button disabled type="button" id="processingBtn" class="text-white bg-gray-800 font-medium rounded-lg text-base px-5 py-2.5 text-center mr-2 inline-flex items-center justify-center w-full" style="display: none;">
             <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -317,8 +316,6 @@
             </svg>
             Processing...
           </button>
-
-
         </div>
       </form>
       <div id="result-card" class="mt-6" style="display: none;">
