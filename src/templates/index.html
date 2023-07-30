@@ -65,7 +65,7 @@
       </nav>
     </div>
 
-    <div class="main-body fade-in-down mx-4 mt-12 sm:mx-8 md:mx-32 lg:mx-48">
+    <div class="main-body fade-in-down mx-4 mt-10 sm:mx-8 md:mx-32 lg:mx-48">
       <div class="flex flex-col justify-center items-center">
         <h1 class="w-full font-bold text-white text-xl md:text-4xl text-center">
           Streamline
@@ -104,20 +104,20 @@
       </div>
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex flex-col md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
+        <div class="flex flex-col h-64 md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
           <div class="w-full md:w-2/3">
             <textarea
               type="text"
               name="data"
               id="readFromTextArea"
-              class="border border-violet-400 text-sm rounded-lg block w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
+              class="border border-violet-400 text-sm rounded-lg block w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white fade-in-down"
               placeholder="https://www.darkreading.com OR copy paste your texts"
               value="{{ data }}"
               required
               pattern="https?://.+"
             ></textarea>
             <!-- DragDropUI -->
-            <div id="dragDropUI" class="bg-gray-900 rounded w-full" style="display: none;">
+            <div id="dragDropUI" class="bg-gray-900 rounded w-full fade-in-down" style="display: none;">
               <div
                 x-data="dataFileDnD()"
                 class="relative flex flex-col p-4 text-gray-400 border border-violet-400 rounded-lg"
@@ -286,7 +286,7 @@
             </div> 
           </div>
         </div>
-        <div class="w-full mt-6">
+        <div class="w-full">
           <div class="text-sm md:text-lg">
             <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
           </div>

@@ -12,6 +12,17 @@
     transform: translateY(0);
   }
 }
+
+/* .fade-in {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-in.show {
+  opacity: 1;
+} */
+
+
 .markdown {
     line-height: 1.5;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
