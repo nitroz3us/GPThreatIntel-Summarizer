@@ -80,34 +80,45 @@ def process_text_with_openai(report, max_tokens, chosen_model):
     system_prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not found, please do not create one, but if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings."
     # prompt += text
     text = f'{system_prompt}\n\n"""{report}"""'
+    error_result = ""
+    try:
+        if chosen_model == "text-davinci-003":
+            # fix this later, try catch
+            result = openai.Completion.create(
+                engine=chosen_model,
+                prompt=text,
+                temperature=0.3,
+                max_tokens=max_tokens,
+                top_p=0.2,
+                frequency_penalty=0,
+                presence_penalty=0
+            )
+            if result.choices and result.choices[0].text is not None:
+                return result.choices[0].text.strip()
+            else:
+                if 'choices' in result and result['choices'] and result['choices'][0]['message']['content'] is not None:
+                    return result['choices'][0]['message']['content'].strip()
+            # return result.choices[0].text.strip()
+        else:
+            # fix this later, try catch
+            result = openai.ChatCompletion.create(
+                model=chosen_model,
+                messages=[{"role": "system", "content": f"{system_prompt}"},
+                            {"role": "user", "content": f"{report}"},],
+                temperature=0.3,
+                max_tokens=max_tokens,
+                top_p=0.2,
+                frequency_penalty=0,
+                presence_penalty=0
+            )
+            return result['choices'][0]['message']['content']
+    except openai.error.OpenAIError as e:
+        #Handle rate limit error, e.g. wait or log
+        error_result = f"OpenAI API returned an API Error: {str(e)}"
+        print(f"OpenAI API returned an API Error: {str(e)}")
+        # pass
+    return error_result
 
-    if chosen_model == "text-davinci-003":
-        # fix this later, try catch
-        result = openai.Completion.create(
-            engine=chosen_model,
-            prompt=text,
-            temperature=0.3,
-            max_tokens=max_tokens,
-            top_p=0.2,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        return result.choices[0].text.strip()
-    else:
-        # fix this later, try catch
-        result = openai.ChatCompletion.create(
-            model=chosen_model,
-            messages=[{"role": "system", "content": f"{system_prompt}"},
-                        {"role": "user", "content": f"{report}"},],
-            temperature=0.3,
-            max_tokens=max_tokens,
-            top_p=0.2,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        # return result.choices[0].text.strip()
-        # return result.choices[0].message.content
-        return result['choices'][0]['message']['content']
 
 
 

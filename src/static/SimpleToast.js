@@ -13,25 +13,48 @@ function toastInit() {
     body.append(alertBox);
 }
 
+let previousToastTimeout;
+let previousToast;
+
 function toast(title, message, style, closeAfter = 7500) {
-    var body = document.getElementById('alertBox');
-    var alert = document.createElement('div');
-    alert.innerHTML = style.replace('Title', title);
-    alert.innerHTML = alert.innerHTML.replace('Description', message);
-    alert.querySelectorAll('div')[3].onclick = ()=>{
-        alert.querySelectorAll('div')[0].style.opacity = 0;
-        setTimeout(()=>{
-            alert.remove();
-        }, 250);
+    const body = document.getElementById('alertBox');
+    const alert = document.createElement('div');
+    alert.innerHTML = style.replace('Title', title).replace('Description', message);
+    const closeButton = alert.querySelectorAll('div')[3];
+    
+    closeButton.onclick = () => {
+        hideToast(alert);
+    };
+
+    // Clear previous toast removal timeout if it exists
+    if (previousToastTimeout) {
+        clearTimeout(previousToastTimeout);
     }
-    setTimeout(()=>{
-        alert.querySelectorAll('div')[0].style.opacity = 0;
-        setTimeout(()=>{
-            alert.remove();
-        }, 250);
-    }, closeAfter);
+
+    // If there was a previous toast, hide it
+    if (previousToast) {
+        hideToast(previousToast);
+    }
+
+    // Add the new toast to the DOM and set its opacity to 1 after a small delay
     body.append(alert);
-    setTimeout(()=>{
+    setTimeout(() => {
         alert.querySelectorAll('div')[0].style.opacity = 1;
     }, 200);
+
+    // Set a timeout to automatically hide the toast after the specified duration
+    previousToastTimeout = setTimeout(() => {
+        hideToast(alert);
+    }, closeAfter);
+
+    // Update the previousToast to the current toast element
+    previousToast = alert;
 }
+
+function hideToast(toastElement) {
+    toastElement.querySelectorAll('div')[0].style.opacity = 0;
+    setTimeout(() => {
+        toastElement.remove();
+    }, 1);
+}
+

@@ -153,10 +153,19 @@ function dataFileDnD() {
             .then((response) => response.text())
             .then((data) => {
               // Print data onto responseBody div
-              toast('Success', 'Summary generated!', toastStyles.success, 4000);
-              hideLoadingUI();
-              result_card.style.display = "block";
-              document.getElementById("result-body").innerHTML = data;
+              if (data.includes("API Error")) {
+                toast('Error', data, toastStyles.error, 4000);
+                hideLoadingUI();
+              }
+              else if (data === "Internal Server Error" || data === "") {
+                toast('Error', 'Something went wrong', toastStyles.error, 4000);
+                hideLoadingUI();
+              }else{
+                toast('Success', 'Summary generated!', toastStyles.success, 4000);
+                hideLoadingUI();
+                result_card.style.display = "block";
+                document.getElementById("result-body").innerHTML = data;
+              }
             })
             .catch((error) => {
               console.error(error);
