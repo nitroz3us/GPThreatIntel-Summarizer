@@ -44,6 +44,7 @@ To get started with GPThreatIntel-Summarizer, follow these steps:
     - https://platform.openai.com/account/api-keys
 - Enter the URL or paste the text content of the CTI report in the provided text field.
     - Alternatively, you can upload a PDF file.
+- Choose your GPT Model.
 - Specify the desired length or word count for the summary.
 - Click the "Summarize" button to generate a summary of the report.
 - The extracted IOCs and TTPs will be displayed below the summarized report.
