@@ -104,151 +104,153 @@
       </div>
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex justify-center mt-10">
-          <textarea
-            type="text"
-            name="data"
-            id="readFromTextArea"
-            class="border border-violet-400 text-sm rounded-lg block p7 w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
-            placeholder="https://www.darkreading.com OR copy paste your texts"
-            value="{{ data }}"
-            required
-            pattern="https?://.+"
-          ></textarea>
-          <!-- DragDropUI -->
-          <div id="dragDropUI" class="bg-gray-900 p7 rounded w-full" style="display: none;">
-            <div
-              x-data="dataFileDnD()"
-              class="relative flex flex-col p-4 text-gray-400 border border-violet-400 rounded-lg"
-            >
+        <div class="flex flex-col md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
+          <div class="w-full md:w-2/3">
+            <textarea
+              type="text"
+              name="data"
+              id="readFromTextArea"
+              class="border border-violet-400 text-sm rounded-lg block p7 w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
+              placeholder="https://www.darkreading.com OR copy paste your texts"
+              value="{{ data }}"
+              required
+              pattern="https?://.+"
+            ></textarea>
+            <!-- DragDropUI -->
+            <div id="dragDropUI" class="bg-gray-900 p7 rounded w-full" style="display: none;">
               <div
-                x-ref="dnd"
-                class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
+                x-data="dataFileDnD()"
+                class="relative flex flex-col p-4 text-gray-400 border border-violet-400 rounded-lg"
               >
-                <input
-                  accept=".pdf"
-                  type="file"
-                  name="file_upload"
-                  id="dragDropInput"
-                  class="absolute inset-0 z-50 w-full h-full p-0 m-5 outline-none opacity-0 cursor-pointer"
-                  @change="addFiles($event)"
-                  @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
-                  @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
-                  @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
-                  title=""
-                  required
-                  disabled
-                />
-
                 <div
-                  class="flex flex-col items-center justify-center py-10 text-center"
+                  x-ref="dnd"
+                  class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
                 >
-                  <svg
-                    class="w-6 h-6 mr-1 text-current-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <p class="m-0">
-                    Drag your PDF file here or click in this area.
-                  </p>
-                </div>
-              </div>
+                  <input
+                    accept=".pdf"
+                    type="file"
+                    name="file_upload"
+                    id="dragDropInput"
+                    class="absolute inset-0 z-50 w-full h-full p-0 m-5 outline-none opacity-0 cursor-pointer"
+                    @change="addFiles($event)"
+                    @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
+                    @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
+                    @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
+                    title=""
+                    required
+                    disabled
+                  />
 
-              <template x-if="files.length > 0">
-                <div
-                  class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-6"
-                  @drop.prevent="drop($event)"
-                  @dragover.prevent="$event.dataTransfer.dropEffect = 'move'"
-                >
-                  <template
-                    x-for="(_, index) in Array.from({ length: files.length })"
+                  <div
+                    class="flex flex-col items-center justify-center py-10 text-center"
                   >
-                    <div
-                      class="relative flex flex-col items-center overflow-hidden text-center bg-gray-600 border rounded cursor-move select-none"
-                      style="padding-top: 100%"
-                      @dragstart="dragstart($event)"
-                      @dragend="fileDragging = null"
-                      :class="{'border-blue-600': fileDragging == index}"
-                      draggable="true"
-                      :data-index="index"
+                    <svg
+                      class="w-6 h-6 mr-1 text-current-50"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <button
-                        class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
-                        type="button"
-                        @click="remove(index)"
-                      >
-                        <svg
-                          class="w-4 h-4 text-gray-700"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                      </button>
-                      <template
-                        x-if="files[index].type.includes('application/pdf')"
-                      >
-                        <svg
-                          class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                          />
-                        </svg>
-                      </template>
-                      <div
-                        class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50"
-                      >
-                        <span
-                          class="w-full font-bold text-gray-900 truncate"
-                          x-text="files[index].name"
-                          >Loading</span
-                        >
-                        <span
-                          class="text-xs text-gray-900"
-                          x-text="humanFileSize(files[index].size)"
-                          >...</span
-                        >
-                      </div>
-
-                      <div
-                        class="absolute inset-0 z-40 transition-colors duration-300"
-                        @dragenter="dragenter($event)"
-                        @dragleave="fileDropping = null"
-                        :class="{'bg-blue-200 bg-opacity-80': fileDropping == index && fileDragging != index}"
-                      ></div>
-                    </div>
-                  </template>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <p class="m-0">
+                      Drag your PDF file here or click in this area.
+                    </p>
+                  </div>
                 </div>
-              </template>
+
+                <template x-if="files.length > 0">
+                  <div
+                    class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-6"
+                    @drop.prevent="drop($event)"
+                    @dragover.prevent="$event.dataTransfer.dropEffect = 'move'"
+                  >
+                    <template
+                      x-for="(_, index) in Array.from({ length: files.length })"
+                    >
+                      <div
+                        class="relative flex flex-col items-center overflow-hidden text-center bg-gray-600 border rounded cursor-move select-none"
+                        style="padding-top: 100%"
+                        @dragstart="dragstart($event)"
+                        @dragend="fileDragging = null"
+                        :class="{'border-blue-600': fileDragging == index}"
+                        draggable="true"
+                        :data-index="index"
+                      >
+                        <button
+                          class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
+                          type="button"
+                          @click="remove(index)"
+                        >
+                          <svg
+                            class="w-4 h-4 text-gray-700"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </button>
+                        <template
+                          x-if="files[index].type.includes('application/pdf')"
+                        >
+                          <svg
+                            class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                            />
+                          </svg>
+                        </template>
+                        <div
+                          class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50"
+                        >
+                          <span
+                            class="w-full font-bold text-gray-900 truncate"
+                            x-text="files[index].name"
+                            >Loading</span
+                          >
+                          <span
+                            class="text-xs text-gray-900"
+                            x-text="humanFileSize(files[index].size)"
+                            >...</span
+                          >
+                        </div>
+
+                        <div
+                          class="absolute inset-0 z-40 transition-colors duration-300"
+                          @dragenter="dragenter($event)"
+                          @dragleave="fileDropping = null"
+                          :class="{'bg-blue-200 bg-opacity-80': fileDropping == index && fileDragging != index}"
+                        ></div>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+              </div>
             </div>
           </div>
-          <div class="flex flex-col ml-6">
+          <div class="w-full md:w-1/3">
             <div class="">
-              <label for="model" class="text-md font-medium text-white">Model</label>
+              <label for="model" class="text-sm md:text-md font-medium text-white">Model</label>
               <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-full p-2.5">
                 <option value="text-davinci-003">text-davinci-003 (4k)</option>
                 <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
@@ -260,7 +262,7 @@
             <div class="p7 w-full mt-7">
               <label
                 for="steps-range"
-                class="text-md font-medium text-white"
+                class="text-sm md:text-md font-medium text-white"
                 for="word_count"
                 >Summarize in (100-1000) words:
               </label>
@@ -277,48 +279,12 @@
               <label
                 id="word_count_value"
                 for="steps-range"
-                class="text-md font-medium text-white"
+                class="text-sm md:text-md font-medium text-white sm:text-sm"
                 >500</label
               >
-              <label for="">words</label>
+              <label for="" class="text-sm md:text-md">words</label>
             </div> 
           </div>
-          <!-- <div class="mt-6">
-            <label for="model" class="text-md font-medium text-white">Model</label>
-            <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-3/12 p-2.5">
-              <option value="text-davinci-003">text-davinci-003 (4k)</option>
-              <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
-              <option value="gpt-3.5-turbo-16k">GPT3.5 (turbo-16k)</option>
-              <option value="gpt-4">GPT4 (8k)</option>
-              <option value="gpt-4-32k">GPT4 (32k)</option>
-            </select>
-          </div>
-          <div class="mt-8 p7 w-6/12">
-            <label
-              for="steps-range"
-              class="text-md font-medium text-white"
-              for="word_count"
-              >Summarize in (100-1000) words:
-            </label>
-            <input
-              id="word_count"
-              name="word_count"
-              type="range"
-              min="100"
-              max="1000"
-              value="500"
-              step="100"
-              class="slider w-full h-2 rounded-lg appearance-none accent-violet-500 cursor-pointer bg-gray-300"
-            />
-            <label
-              id="word_count_value"
-              for="steps-range"
-              class="text-md font-medium text-white"
-              >500</label
-            >
-            <label for="">words</label>
-          </div> -->
-          
         </div>
         <div class="p7 w-full mt-6">
           <div class="text-lg">
