@@ -114,8 +114,8 @@ def process_text_with_openai(report, max_tokens, chosen_model):
             return result['choices'][0]['message']['content']
     except openai.error.OpenAIError as e:
         #Handle rate limit error, e.g. wait or log
-        error_result = f"OpenAI API returned an API Error: {str(e)}"
-        print(f"OpenAI API returned an API Error: {str(e)}")
+        error_result = f"OpenAI API Error: {str(e)}"
+        print(f"OpenAI API Error: {str(e)}")
         # pass
     return error_result
 
