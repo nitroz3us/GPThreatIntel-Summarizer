@@ -75,24 +75,40 @@ def extract_text(data):
         return extract_text_from_text(data)
 
 
-def process_text_with_openai(report, max_tokens, model):
+def process_text_with_openai(report, max_tokens, chosen_model):
     # Edit this later!
-    prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not found, please do not create one, but if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.",
+    system_prompt="You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not found, please do not create one, but if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings."
     # prompt += text
-    text = f'{prompt}\n\n"""{report}"""'
-    print("Print text & prompt: \n" + text)
+    text = f'{system_prompt}\n\n"""{report}"""'
 
-    # fix this later, try catch
-    result = openai.Completion.create(
-        engine=model,
-        prompt=text,
-        temperature=0.3,
-        max_tokens=max_tokens,
-        top_p=0.2,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    return result.choices[0].text.strip()
+    if chosen_model == "text-davinci-003":
+        # fix this later, try catch
+        result = openai.Completion.create(
+            engine=chosen_model,
+            prompt=text,
+            temperature=0.3,
+            max_tokens=max_tokens,
+            top_p=0.2,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        return result.choices[0].text.strip()
+    else:
+        # fix this later, try catch
+        result = openai.ChatCompletion.create(
+            model=chosen_model,
+            messages=[{"role": "system", "content": f"{system_prompt}"},
+                        {"role": "user", "content": f"{report}"},],
+            temperature=0.3,
+            max_tokens=max_tokens,
+            top_p=0.2,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        # return result.choices[0].text.strip()
+        # return result.choices[0].message.content
+        return result['choices'][0]['message']['content']
+
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -102,6 +118,7 @@ def index(request: Request):
 @app.post("/", response_class=HTMLResponse)
 async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None), openAIKey: str = Form(...), word_count: int = Form(100), model: str = Form(...)):
     openai.api_key = openAIKey
+    print("Model Chosen: " + model)
 
 
     # Handle PDF input
@@ -116,14 +133,14 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
             output += page.extract_text()
 
         result = process_text_with_openai(output, word_count, model)
-        print("Print output: \n" + result)
+        # print("Print output: \n" + result)
         result = markdown.markdown(result) 
         return result
     if data is not None:    
         # Process text/url input
         output = extract_text(data)
         result = process_text_with_openai(output, word_count, model)
-        print("Print output: \n" + result)
+        # print("Print output: \n" + result)
         result = markdown.markdown(result)
         return result
     else:

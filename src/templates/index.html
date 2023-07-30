@@ -72,14 +72,14 @@
           <a
             href=""
             target="_blank"
-            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
+            class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent"
             >Cyber Threat Intelligence</a
           >
           with
           <a
             href=""
             target="_blank"
-            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
+            class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent"
             >AI</a
           >
         </h1>
@@ -88,7 +88,7 @@
           <a
             href="https://vercel.com/"
             target="_blank"
-            class="bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] bg-clip-text text-transparent"
+            class="bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent font-bold"
             >Vercel.</a
           >
         </span>
@@ -109,7 +109,7 @@
             type="text"
             name="data"
             id="readFromTextArea"
-            class="border border-violet-400 text-sm rounded-lg block p7 w-full h-44 p-4 bg-zinc-950 placeholder-gray-500 text-white"
+            class="border border-violet-400 text-sm rounded-lg block p7 w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white"
             placeholder="https://www.darkreading.com OR copy paste your texts"
             value="{{ data }}"
             required
@@ -338,7 +338,7 @@
         <div class="p7 w-full mt-7">
           <button
             type="submit"
-            class="submit text-white bg-gradient-to-r from-[#5F26FF] to-[#7F52FF] focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
+            class="submit text-white bg-gradient-to-r from-indigo-500 to-purple-500 focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
             id="submitBtn"            
             >
             Summarize
@@ -355,14 +355,14 @@
 
         </div>
       </form>
-      <div id="result-card" style="display: none;">
-        <a
-          class="mt-4 p-6 border block border-violet-300 rounded-lg shadow hover:bg-gray-200 bg-gray-900 border-sky-700 hover:bg-gray-800"
-        >
-          <div class="result-body markdown px-6" id="result-body" onclick="copyClipboard()" style="position: relative;">
+      <div id="result-card" class="mt-6" style="display: none;">
+        <div class="w-full rounded-md bg-gradient-to-r from-indigo-500 to-purple-500 p-1">
+          <div class="items-center justify-center bg-gray-800 back">
+            <a class="p-6 text-white">
+              <div class="result-body markdown px-6" id="result-body" onclick="copyClipboard()" style="position: relative;">mike test</div>
+            </a>
           </div>
-        </a>
-        
+        </div>
       </div>
    
 
