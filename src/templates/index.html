@@ -40,10 +40,10 @@
           </a>
 
           <div
-            class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            class="items-center justify-between md:flex"
           >
             <ul
-              class="flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0"
+              class="flex flex-row p-4 md:p-0 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0 ml-auto"
             >
               <li>
                 <a
@@ -96,7 +96,7 @@
       <div class="flex justify-center">
         <button
           type="button"
-          class="toggleBtn mt-10 hover:scale-105 text-md border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"      
+          class="toggleBtn mt-10 hover:scale-105 text-sm md:text-base border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"      
           onclick="toggleUI()"
         >
           Read from PDF
@@ -250,7 +250,7 @@
           </div>
           <div class="w-full md:w-1/3">
             <div class="">
-              <label for="model" class="text-sm md:text-md font-medium text-white">Model</label>
+              <label for="model" class="text-sm md:text-base font-medium text-white">Model</label>
               <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-full p-2.5">
                 <option value="text-davinci-003">text-davinci-003 (4k)</option>
                 <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
@@ -262,7 +262,7 @@
             <div class="p7 w-full mt-7">
               <label
                 for="steps-range"
-                class="text-sm md:text-md font-medium text-white"
+                class="text-sm md:text-base text-white font-medium"
                 for="word_count"
                 >Summarize in (100-1000) words:
               </label>
@@ -279,18 +279,18 @@
               <label
                 id="word_count_value"
                 for="steps-range"
-                class="text-sm md:text-md font-medium text-white sm:text-sm"
+                class="text-sm md:text-base font-medium text-white sm:text-sm"
                 >500</label
               >
-              <label for="" class="text-sm md:text-md">words</label>
+              <label for="" class="text-sm md:text-base">words</label>
             </div> 
           </div>
         </div>
         <div class="p7 w-full mt-6">
-          <div class="text-lg">
-            <label for="openAIKey">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
+          <div class="text-sm md:text-lg">
+            <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
           </div>
-          <label for="openAIKey" class="text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
+          <label for="openAIKey" class="text-xs md:text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
 
           <input
           type="password"
@@ -304,13 +304,13 @@
         <div class="p7 w-full mt-7">
           <button
             type="submit"
-            class="submit text-white bg-gradient-to-r from-indigo-500 to-purple-500 focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-md w-full px-5 py-2.5 text-center"
+            class="submit text-white bg-gradient-to-r from-indigo-500 to-purple-500 focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-base w-full px-5 py-2.5 text-center"
             id="submitBtn"            
             >
             Summarize
             
           </button>
-          <button disabled type="button" id="processingBtn" class="text-white bg-gray-800 font-medium rounded-lg text-md px-5 py-2.5 text-center mr-2 inline-flex items-center justify-center w-full" style="display: none;">
+          <button disabled type="button" id="processingBtn" class="text-white bg-gray-800 font-medium rounded-lg text-base px-5 py-2.5 text-center mr-2 inline-flex items-center justify-center w-full" style="display: none;">
             <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
               <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
