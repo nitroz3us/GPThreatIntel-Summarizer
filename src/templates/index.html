@@ -11,7 +11,7 @@
 <html class="bg-zinc-950 text-white font-sans">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="/static/main.js"></script>
@@ -25,10 +25,10 @@
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
-  <body>
+  <body class="max-w-screen-2xl">
     <!-- Navigation Header -->
     <div class="top_nav">
-      <nav class=" bg-zinc-950 border-gray-600">
+      <nav class="bg-zinc-950 border-gray-600">
         <div
           class="top-0 left-0 flex flex-row justify-between bg-darkest w-screen p-5"
         >
@@ -39,14 +39,14 @@
             >
           </a>
 
-          <div
-            class="items-center justify-between md:flex"
-          >
+          <div class="items-center justify-between md:flex">
             <ul
               class="flex flex-row pl-4 pr-0 py-4 md:p-0 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0 ml-auto"
             >
               <li>
                 <a
+                  href="https://github.com/nitroz3us/GPThreatIntel-Summarizer"
+                  target="_blank"
                   class="block py-2 pl-3 pr-4 text-gray-900 hover:text-violet-500 md:hover:bg-transparent md:p-0 md:hover:text-violet-300 text-white"
                   >About</a
                 >
@@ -93,7 +93,31 @@
           >
         </span>
       </div>
-      <div class="flex justify-center">
+
+      <div class="flex mt-20">
+        <ul class="text-sm font-medium text-center rounded-lg shadow flex text-gray-400 w-full md:w-3/12 border border-gray-700">
+          <!-- top left, bottom left -->
+          <li id="text-url-tab" class="flex-1 md:rounded-l-lg bg-gray-800" onclick="toggleUI('text-url-tab')">
+            <a
+              class="tab-item inline-block w-full p-2.5 md:rounded-l-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none hover:bg-gray-700 border border-0 border-gray-500 text-white"
+              aria-current="page"
+              >Text/URL</a
+            >
+          </li>
+          <li id="pdf-tab" class="flex-1 md:rounded-r-lg" onclick="toggleUI('pdf-tab')">
+            <a
+              class="tab-item inline-block w-full p-2.5 md:rounded-r-lg focus:ring-4 focus:outline-none focus:ring-blue-300 text-white hover:bg-gray-700"
+              >PDF</a
+            >
+          </li>
+        </ul>
+      </div>
+      
+      
+      
+
+      
+      <!-- <div class="flex justify-center">
         <button
           type="button"
           class="toggleBtn mt-10 hover:scale-105 focus:scale-100 text-md border border-violet-900 rounded-3xl shadow hover:bg-gray-200 bg-gray-900 border-violet-700 hover:bg-gray-800 w-full sm:w-auto px-5 py-2.5 text-center"
@@ -101,30 +125,36 @@
         >
           Read from PDF
         </button>
-      </div>
+      </div> -->
 
       <form action="/" method="post" enctype="multipart/form-data" id="myForm">
-        <div class="flex flex-col md:flex-row justify-center mt-10 space-y-6 md:space-y-0 md:space-x-6">
-          <div class="w-full md:w-2/3 min-h-64 md:h-64">
+        <div
+          class="flex flex-col md:flex-row justify-center mt-6 space-y-6 md:space-y-0 md:space-x-6"
+        >
+          <div class="w-full md:w-2/3 min-h-64">
             <textarea
               type="text"
               name="data"
               id="readFromTextArea"
-              class="border border-violet-400 text-sm rounded-lg block w-full h-56 p-4 bg-zinc-950 placeholder-gray-500 text-white fade-in-down"
+              class="border border-violet-400 text-base rounded-lg block w-full h-56 md:h-full  p-4 bg-zinc-950 placeholder-gray-500 text-white fade-in-down"
               placeholder="https://www.darkreading.com OR copy paste your texts"
               value="{{ data }}"
               required
               pattern="https?://.+"
             ></textarea>
             <!-- DragDropUI -->
-            <div id="dragDropUI" class="bg-gray-900 rounded w-full fade-in-down" style="display: none;">
+            <div
+              id="dragDropUI"
+              class="bg-gray-900 rounded w-full h-full fade-in-down"
+              style="display: none"
+            >
               <div
                 x-data="dataFileDnD()"
-                class="relative flex flex-col p-4 text-gray-400 border border-violet-400 rounded-lg"
+                class="relative flex flex-col p-4 h-full text-gray-400 border border-violet-400 rounded-lg"
               >
                 <div
                   x-ref="dnd"
-                  class="relative flex flex-col text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
+                  class="relative flex flex-col items-center text-gray-400 h-full border border-gray-700 border-dashed rounded cursor-pointe p-7"
                 >
                   <input
                     accept=".pdf"
@@ -249,20 +279,49 @@
             </div>
           </div>
           <div class="w-full md:w-1/3">
-            <div class="">
-              <label for="model" class="text-sm md:text-base font-medium text-white">Model</label>
-              <select id="model" name="model" class="bg-gray-900 mt-2 border border-gray-500 text-white text-sm rounded-md w-full p-2.5">
+            <div class="relative mb-7">
+              <label
+                for="model"
+                class="text-base md:text-base font-medium text-white"
+                >Model</label
+              >
+              <select
+                id="model"
+                name="model"
+                class="bg-gray-900 mt-2 border border-gray-500 text-white text-base rounded-md w-full p-2.5 cursor-pointer appearance-none"
+              >
                 <option value="text-davinci-003">text-davinci-003 (4k)</option>
                 <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
                 <option value="gpt-3.5-turbo-16k">GPT3.5 (turbo-16k)</option>
                 <option value="gpt-4">GPT4 (8k)</option>
                 <option value="gpt-4-32k">GPT4 (32k)</option>
               </select>
+              <!-- Custom SVG chevron-down -->
+              <span
+                class="absolute inset-y-0 right-2 flex items-center justify-center pointer-events-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4"
+                  style="transform: translateY(105%)"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </span>
             </div>
-            <div class="w-full mt-7">
+
+            <div class="w-full mt-7 mb-7">
               <label
                 for="steps-range"
-                class="text-sm md:text-base text-white font-medium"
+                class="text-base md:text-base text-white font-medium"
                 for="word_count"
                 >Summarize in (100-1000) words:
               </label>
@@ -282,53 +341,80 @@
                 class="text-sm md:text-base font-medium text-white sm:text-sm"
                 >500</label
               >
-              <label for="" class="text-sm md:text-base font-medium">words</label>
-            </div> 
+              <label for="" class="text-sm md:text-base font-medium"
+                >words</label
+              >
+            </div>
+            <div class="w-full">
+              <div class="text-base md:text-base mt-6">
+                <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
+              </div>
+              <label for="openAIKey" class="text-xs md:text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
+    
+              <input
+              type="password"
+              name="openAIKey"
+              id="openAIKey"
+              maxlength="51"
+              class="border border-gray-600 text-sm rounded-lg block w-full p-4 bg-zinc-950 placeholder-gray-500 text-white mt-4 mr-4"
+              required
+            ></input>
+            </div>
           </div>
         </div>
-        <div class="w-full">
-          <div class="text-base md:text-lg mt-6">
-            <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
-          </div>
-          <label for="openAIKey" class="text-xs md:text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
 
-          <input
-          type="password"
-          name="openAIKey"
-          id="openAIKey"
-          maxlength="51"
-          class="border border-gray-600 text-sm rounded-lg block w-full p-4 bg-zinc-950 placeholder-gray-500 text-white mt-4 mr-4"
-          required
-        ></input>
-        </div>
         <div class="w-full mt-7 mb-7">
           <button
             type="submit"
             class="submit text-white bg-gradient-to-r from-indigo-500 to-purple-500 focus:ring-1 focus:outline-none focus:ring-violet-300 font-sm rounded-lg text-base w-full px-5 py-2.5 text-center"
-            id="submitBtn"            
-            >
-            Summarize  
+            id="submitBtn"
+          >
+            Summarize
           </button>
-          <button disabled type="button" id="processingBtn" class="text-white bg-gray-800 font-medium rounded-lg text-base px-5 py-2.5 text-center mr-2 inline-flex items-center justify-center w-full" style="display: none;">
-            <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+          <button
+            disabled
+            type="button"
+            id="processingBtn"
+            class="text-white bg-gray-800 font-medium rounded-lg text-base px-5 py-2.5 text-center mr-2 inline-flex items-center justify-center w-full"
+            style="display: none"
+          >
+            <svg
+              aria-hidden="true"
+              role="status"
+              class="inline w-4 h-4 mr-3 text-white animate-spin"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="#E5E7EB"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentColor"
+              />
             </svg>
             Processing...
           </button>
         </div>
       </form>
-      <div id="result-card" class="mt-6" style="display: none;">
-        <div class="w-full rounded-md bg-gradient-to-r from-indigo-500 to-purple-500 p-1">
+      <div id="result-card" class="mt-6" style="display: none">
+        <div
+          class="w-full rounded-md bg-gradient-to-r from-indigo-500 to-purple-500 p-1"
+        >
           <div class="items-center justify-center bg-gray-800 back">
             <a class="p-6 text-white">
-              <div class="result-body markdown px-6" id="result-body" onclick="copyClipboard()" style="position: relative;"></div>
+              <div
+                class="result-body markdown px-12"
+                id="result-body"
+                onclick="copyClipboard()"
+                style="position: relative"
+              ></div>
             </a>
           </div>
         </div>
       </div>
-   
-
     </div>
     <script type="text/javascript">
       toastInit();

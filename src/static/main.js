@@ -1,29 +1,45 @@
-function toggleUI() {
-    const dragDropDiv = document.getElementById("dragDropUI");
-    const readFromTextAreaDiv = document.getElementById("readFromTextArea");
-    const dragDropInput = document.getElementById("dragDropInput");
-    const toggleBtn = document.querySelector(".toggleBtn");
+let activeTab = "text-url-tab";
 
-    if (dragDropDiv.style.display === "none") {
-      // Show & Enable the dragDropDiv div
-      dragDropDiv.style.display = "block";
-      dragDropInput.removeAttribute("disabled");
-      // Disable readFromTextAreaDiv
-      readFromTextAreaDiv.setAttribute("disabled", "");
-      //
-      readFromTextAreaDiv.style.display = "none";
-      toggleBtn.textContent = "Read from Text/URL";
-      // disable read from text area
-    } else {
-      // Hide & Disable the dragDropUI div
-      dragDropDiv.style.display = "none";
-      dragDropInput.setAttribute("disabled", "");
-      // enable read from text area
-      readFromTextAreaDiv.removeAttribute("disabled");
-      readFromTextAreaDiv.style.display = "block";
-      toggleBtn.textContent = "Read from PDF";
-    }
+function toggleUI(tabId) {
+  const dragDropDiv = document.getElementById("dragDropUI");
+  const readFromTextAreaDiv = document.getElementById("readFromTextArea");
+  const dragDropInput = document.getElementById("dragDropInput");
+
+  // If clicking on the same tab, do nothing
+  if (activeTab === tabId) {
+    return;
   }
+
+  // Remove the "bg-gray-800" class from the previous active tab
+  const previousActiveTab = document.getElementById(activeTab);
+  previousActiveTab.classList.remove("bg-gray-800");
+
+  // Add the "bg-gray-800" class to the clicked tab (PDF tab)
+  const clickedTab = document.getElementById(tabId);
+  clickedTab.classList.add("bg-gray-800");
+
+  // Update the activeTab variable
+  activeTab = tabId;
+
+  // Reset the styles when the "PDF" tab is clicked
+  if (tabId === "pdf-tab") {
+    // Show & Enable the dragDropDiv div
+    dragDropDiv.style.display = "block";
+    dragDropInput.removeAttribute("disabled");
+    // Disable readFromTextAreaDiv
+    readFromTextAreaDiv.setAttribute("disabled", "");
+    readFromTextAreaDiv.style.display = "none";
+  } else {
+    // Hide & Disable the dragDropUI div
+    dragDropDiv.style.display = "none";
+    dragDropInput.setAttribute("disabled", "");
+    // Enable read from text area
+    readFromTextAreaDiv.removeAttribute("disabled");
+    readFromTextAreaDiv.style.display = "block";
+  }
+}
+
+
 
 document.addEventListener("DOMContentLoaded", (event) => {
     document
