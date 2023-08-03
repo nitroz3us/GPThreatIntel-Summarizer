@@ -40,7 +40,6 @@ function toggleUI(tabId) {
 }
 
 
-
 document.addEventListener("DOMContentLoaded", (event) => {
     document
       .getElementById("myForm")
@@ -64,7 +63,6 @@ function copyClipboard() {
     if (selection.toString() === "NO SUMMARY YET") {
         return;
     } else {
-        // document.execCommand("copy");
         navigator.clipboard.writeText(selection.toString());
         toast('Info', 'Copied to clipboard', toastStyles.info, 4000);
 
@@ -138,103 +136,101 @@ function dataFileDnD() {
     };
 }
 
-  function submitForm() {
-    const result_card = document.querySelector("#result-card");
-    var formElement = document.getElementById("myForm");
-    var data = new FormData(formElement);
-  
-    // Get the API key from the form data
-    var apiKey = data.get("openAIKey");
-  
-    if (!isValidApiKeyFormat(apiKey)) {
-    //   alert("Invalid API key format.");
-        toast('Error', 'Invalid API key format', toastStyles.error, 4000);
-        return;
-    }
-  
-    showLoadingUI();
+function submitForm() {
+  const result_card = document.querySelector("#result-card");
+  var formElement = document.getElementById("myForm");
+  var data = new FormData(formElement);
+  // Get the API key from the form data
+  var apiKey = data.get("openAIKey");
 
-
-    // Call the API key validation endpoint
-    validateApiKey(apiKey)
-      .then((isValid) => {
-        if (isValid) {
-          // API key is valid, submit the form
-          fetch("/", {
-            method: "POST",
-            body: data,
-          })
-            .then((response) => response.text())
-            .then((data) => {
-              // Print data onto responseBody div
-              if (data.includes("API Error")) {
-                toast('Error', data, toastStyles.error, 4000);
-                hideLoadingUI();
-              }
-              else if (data === "Internal Server Error" || data === "") {
-                toast('Error', 'Something went wrong', toastStyles.error, 4000);
-                hideLoadingUI();
-              }else{
-                toast('Success', 'Summary generated!', toastStyles.success, 4000);
-                hideLoadingUI();
-                result_card.style.display = "block";
-                document.getElementById("result-body").innerHTML = data;
-              }
-            })
-            .catch((error) => {
-              console.error(error);
+  if (!isValidApiKeyFormat(apiKey)) {
+  //   alert("Invalid API key format.");
+      toast('Error', 'Invalid API key format', toastStyles.error, 4000);
+      return;
+  }
+  showLoadingUI();
+  // Call the API key validation endpoint
+  validateApiKey(apiKey)
+    .then((isValid) => {
+      if (isValid) {
+        // API key is valid, submit the form
+        fetch("/", {
+          method: "POST",
+          body: data,
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            // Print data onto responseBody div
+            if (data.includes("API Error")) {
+              toast('Error', data, toastStyles.error, 4000);
               hideLoadingUI();
-              toast('Error', 'An error occurred while processing the data', toastStyles.error, 4000);
-
-            });
-        } else {
+            }
+            else if (data === "Internal Server Error" || data === "") {
+              toast('Error', 'Something went wrong', toastStyles.error, 4000);
+              hideLoadingUI();
+            }else{
+              toast('Success', 'Summary generated!', toastStyles.success, 4000);
+              hideLoadingUI();
+              result_card.style.display = "block";
+              document.getElementById("result-body").innerHTML = data;
+            }
+          })
+          .catch((error) => {
+            console.error(error);
             hideLoadingUI();
-            toast('Error', 'Unauthorized API key', toastStyles.error, 4000);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        toast('Error', 'An error occurred while checking the API key.', toastStyles.error, 4000);
-      });
-  }
-  
-  function showLoadingUI() {
-    // Show loading UI (e.g., display a spinner or show a loading message)
-    const processingBtn = document.getElementById("processingBtn");
-    const submitBtn = document.getElementById("submitBtn");
-    processingBtn.style.display = "block";
-    submitBtn.style.display = "none";
-  }
-  
-  function hideLoadingUI() {
-    // Hide loading UI (e.g., hide the spinner or remove the loading message)
-    const submitBtn = document.getElementById("submitBtn");
-    const processingBtn = document.getElementById("processingBtn");
-    submitBtn.style.display = "block";
-    processingBtn.style.display = "none";
-  }
+            toast('Error', 'An error occurred while processing the data', toastStyles.error, 4000);
 
-  function isValidApiKeyFormat(apiKey) {
-    // Implement the validation logic for the API key format
-    // Return true if the API key is valid, false otherwise
-    // Example validation logic:
-    return /^sk-[a-zA-Z0-9]{32,}$/.test(apiKey);
-  }
-  
-  async function validateApiKey(apiKey) {
-    const headers = {
-      Authorization: `Bearer ${apiKey}`,
-    };
-  
-    try {
-      const response = await fetch("https://api.openai.com/v1/engines", { headers });
-      return response.ok;
-    } catch (error) {
+          });
+      } else {
+          hideLoadingUI();
+          toast('Error', 'Unauthorized API key', toastStyles.error, 4000);
+      }
+    })
+    .catch((error) => {
       console.error(error);
-      return false;
-    }
-  }
+      toast('Error', 'An error occurred while checking the API key.', toastStyles.error, 4000);
+    });
+}
   
+
+
+
+function showLoadingUI() {
+  // Show loading UI (e.g., display a spinner or show a loading message)
+  const processingBtn = document.getElementById("processingBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  processingBtn.style.display = "block";
+  submitBtn.style.display = "none";
+}
+
+function hideLoadingUI() {
+  // Hide loading UI (e.g., hide the spinner or remove the loading message)
+  const submitBtn = document.getElementById("submitBtn");
+  const processingBtn = document.getElementById("processingBtn");
+  submitBtn.style.display = "block";
+  processingBtn.style.display = "none";
+}
+
+function isValidApiKeyFormat(apiKey) {
+  // Implement the validation logic for the API key format
+  // Return true if the API key is valid, false otherwise
+  // Example validation logic:
+  return /^sk-[a-zA-Z0-9]{32,}$/.test(apiKey);
+}
+
+async function validateApiKey(apiKey) {
+  const headers = {
+    Authorization: `Bearer ${apiKey}`,
+  };
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/engines", { headers });
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+} 
 
 // Word count slider
 window.onload = function () {

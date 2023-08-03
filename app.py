@@ -91,7 +91,8 @@ def process_text_with_openai(report, max_tokens, chosen_model):
                 max_tokens=max_tokens,
                 top_p=0.2,
                 frequency_penalty=0,
-                presence_penalty=0
+                presence_penalty=0,
+                
             )
             if result.choices and result.choices[0].text is not None:
                 return result.choices[0].text.strip()
@@ -119,18 +120,18 @@ def process_text_with_openai(report, max_tokens, chosen_model):
         # pass
     return error_result
 
-
-
-
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/about", response_class=HTMLResponse)
+def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
 
 @app.post("/", response_class=HTMLResponse)
 async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None), openAIKey: str = Form(...), word_count: int = Form(100), model: str = Form(...)):
     openai.api_key = openAIKey
     print("Model Chosen: " + model)
-
 
     # Handle PDF input
     if file_upload is not None:

@@ -1,17 +1,11 @@
 # Ignore Mac system files
 .DS_store
 
-# Ignore node_modules folder
-node_modules
-
 #Ignore __PYCACHE__ folder
 __pycache__
 
 # Ignore files related to API keys
 .env
-
-# Ignore SASS config files
-.sass-cache
 
 # Ignore gitattributes file
 .gitattributes
