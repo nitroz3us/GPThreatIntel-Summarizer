@@ -4,7 +4,7 @@ GPThreatIntel-Summarizer is a Python-based repository that leverages the power o
 
 ## Key Features
 
-- Utilizes OpenAI GPT models ([text-davinci-003](https://platform.openai.com/docs/models/overview)) for natural language processing and summarization tasks.
+- Utilizes OpenAI GPT [models](https://platform.openai.com/docs/models/overview) for natural language processing and summarization tasks.
 - Extracts relevant text from CTI reports using [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) & [pdfplumber](https://github.com/jsvine/pdfplumber).
 - Generates summarized reports based on user-defined length or word count.
 - Extracts Indicators of Compromise (IOCs) and Tactics, Techniques, and Procedures (TTPs) from reports.
@@ -68,12 +68,12 @@ https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/e8327641-
 - TailwindCSS
 
 ## Limitations
-- Since the OpenAI Model I am using is **text-davinci-003**, it has its [limitations](https://platform.openai.com/docs/models/gpt-3-5). The token limit (words) accepted are 4097 tokens.
+- OpenAI Model has its [limitations](https://platform.openai.com/docs/models/gpt-3-5), such as the number of tokens (words) it can process. The base model is GPT 3.5 Turbo and it has a token limit (words) of 4097 tokens.
     - Therefore, if the text content that users want to send to the model is larger than 4097 tokens (words), the model would not be able to process it.  
 
 ## Workarounds/Solutions to the limitations
-1. Implement text embedding
-2. Use a different OpenAI model, e.g. GPT3.5 Turbo, GPT4
+1. Implement text embedding (on my developer end, which is me)
+2. Use a different OpenAI model, e.g. GPT3.5 Turbo (16k), GPT4
     - More information can be found on OpenAI's documentation here
         - https://platform.openai.com/docs/models/overview 
 
