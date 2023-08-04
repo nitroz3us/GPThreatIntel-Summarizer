@@ -13,6 +13,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GPThreat Intel Summarizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="/static/main.js"></script>
     <script type="text/javascript" src="/static/SimpleToast.js"></script>
@@ -21,7 +22,6 @@
       defer
     ></script>
     <script src="https://unpkg.com/create-file-list"></script>
-
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}" />
   </head>
@@ -276,7 +276,6 @@
                   name="model"
                   class="bg-gray-900 mt-2 border border-gray-500 text-white text-base rounded-md w-full p-2.5 cursor-pointer appearance-none"
                 >
-                  <option value="text-davinci-003">text-davinci-003 (4k)</option>
                   <option value="gpt-3.5-turbo">GPT3.5 (turbo-4k)</option>
                   <option value="gpt-3.5-turbo-16k">GPT3.5 (turbo-16k)</option>
                   <option value="gpt-4">GPT4 (8k)</option>
@@ -359,7 +358,12 @@
             >
               Summarize
             </button>
-            <button
+            <div id="progress" class="w-full bg-gray-800 rounded-lg mt-2" style="display: none;">
+              <div id="progress-bar" class="flex justify-center items-center opacity-60 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-sm font-medium text-blue-100 text-center p-0.5 h-9 leading-none"></div>
+            </div>
+            <div id="percentage-count" class="flex justify-center mt-2" style="display: none;"></div>
+
+            <!-- <button
               disabled
               type="button"
               id="processingBtn"
@@ -384,7 +388,7 @@
                 />
               </svg>
               Processing...
-            </button>
+            </button> -->
           </div>
         </form>
         <div id="result-card" class="mt-6" style="display: none">
@@ -403,6 +407,8 @@
             </div>
           </div>
         </div>
+        <!-- Add an intermediate container to store the markdown content -->
+
       </div>
     </div>
 
