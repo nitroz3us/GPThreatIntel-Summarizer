@@ -237,7 +237,6 @@ async function generateResponse(user_prompt) {
           { role: "user", content: user_prompt },
         ],
         max_tokens: parseInt(word_count_value),
-        temperature: 0.7,
         top_p: 0.95,
         n: 1,
         stream: true, // For streaming responses
