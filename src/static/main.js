@@ -166,37 +166,38 @@ function showLoadingBar() {
   const loadingBar = document.getElementById('progress');
   const submitBtn = document.getElementById("submitBtn");
   const loadingProgress = document.getElementById('progress-bar');
-  const percentageCount = document.getElementById('percentage-count');
-  percentageCount.innerHTML = '0%';
+  const elapsedTimeDiv = document.getElementById('elapsed-time-div');
+  const timeTakenDiv = document.getElementById('time-taken-div');
+  const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
+  elapsedTakenSeconds.innerHTML = '0s';
+  timeTakenDiv.style.display = 'none';
   loadingProgress.style.width = '0%';
   submitBtn.style.display = "none";
   loadingBar.style.display = 'block';
-  percentageCount.style.display = 'flex';
+  elapsedTimeDiv.style.display = 'flex';
 }
 
 function hideLoadingBar() {
   const loadingBar = document.getElementById('progress');
+  const timeTakenDiv = document.getElementById('time-taken-div');
   const submitBtn = document.getElementById("submitBtn");
   const loadingProgress = document.getElementById('progress-bar');
-  const percentageCount = document.getElementById('percentage-count');
-  percentageCount.innerHTML = '100%';
+  const elapsedTimeDiv = document.getElementById('elapsed-time-div');
   loadingProgress.style.width = '100%';
-  percentageCount.style.display = 'none';
   loadingBar.style.display = 'none';  
+  elapsedTimeDiv.style.display = 'none';
   submitBtn.style.display = "block";
-
+  timeTakenDiv.style.display = 'flex';
 }
 
 // Function to update the loading bar progress
 function updateLoadingProgress(percentage) {
-  // Replace 'loading-progress' with the ID or class of your progress element inside the loading bar
   const loadingProgress = document.getElementById('progress-bar');
-  const percentageCount = document.getElementById('percentage-count');
-  percentageCount.innerHTML = '0%';
   loadingProgress.style.width = '0%';
   loadingProgress.style.width = `${percentage}%`;
-  percentageCount.innerHTML = `${percentage}%`;
 }
+
+
 
 // Function to generate the response using OpenAI API
 async function generateResponse(user_prompt) {
@@ -209,6 +210,20 @@ async function generateResponse(user_prompt) {
   const system_prompt =
     "You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not explicitly mentioned in the report, please do not create any IoCs. However, if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.";
   let resultText = "";
+  // Start timer
+  const timeTakenSeconds = document.getElementById('time-taken-seconds');
+  const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
+  const startTime = Date.now();
+  // const startTimeInSeconds = Math.floor(startTime / 1000);
+  // const timerElement = document.getElementById('timer');
+  const timerInterval = setInterval(() => {
+    const currentTime = Date.now();
+    const elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+    timeTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
+    elapsedTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
+    // console.log(`Response generated in ${elapsedTimeInSeconds} seconds`);
+  }, 1000);
+
 
 
   try {
@@ -247,6 +262,7 @@ async function generateResponse(user_prompt) {
     const reader = response.body.getReader();
     const decoder = new TextDecoder("utf-8");
     let receivedChunks = 0; // Counter for received chunks
+    let totalChunks = parseInt(word_count_value)
     // console.log("Word count value: " + word_count_value)
 
     while (true) {
@@ -257,8 +273,9 @@ async function generateResponse(user_prompt) {
 
       receivedChunks++;
       console.log("Received chunks: " + receivedChunks);
-      let progress = parseFloat(((receivedChunks / parseInt(word_count_value)) * 100).toFixed(0));  
+      let progress = parseFloat(((receivedChunks / totalChunks) * 100).toFixed(0));  
       updateLoadingProgress(progress);
+
 
       // Massage and parse the chunk of data
       const chunk = decoder.decode(value);
@@ -274,17 +291,23 @@ async function generateResponse(user_prompt) {
         const { content } = delta;
         // Update the UI with the new content
         if (content) {
-          result_card.style.display = "block";
+          // result_card.style.display = "block";
           resultText += content;
-          result_body.innerHTML += content;
+          // result_body.innerHTML += content;
           
         }
       }
     }
 
-    // console.log(resultText);
+    clearInterval(timerInterval);
+    const endTime = Date.now();
+    const elapsedTimeInSeconds = Math.floor((endTime - startTime) / 1000);
+    timeTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
+
+
     hideLoadingBar();
     toast('Success', 'Summary generated!', toastStyles.success, 4000);
+    result_card.style.display = "block";
     result_body.innerHTML = marked.parse(resultText);
   } catch (error) {
     console.error("Error:", error);
