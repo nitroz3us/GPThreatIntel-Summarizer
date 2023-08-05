@@ -272,7 +272,6 @@ async function generateResponse(user_prompt) {
       }
 
       receivedChunks++;
-      console.log("Received chunks: " + receivedChunks);
       let progress = parseFloat(((receivedChunks / totalChunks) * 100).toFixed(0));  
       updateLoadingProgress(progress);
 
@@ -386,10 +385,7 @@ window.onload = function () {
     const selectedValue = selectElement.value;
     selectElement.onchange = function () {
         const selectedValue = selectElement.value;
-        console.log("Selected Model: " + selectedValue);
     }
-    // Log the selected value
-    // console.log("Selected Model: " + selectedValue);
     
     wordCountSlider.oninput = function () {
         wordCountValue.innerHTML = this.value;
