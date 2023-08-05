@@ -169,6 +169,8 @@ function showLoadingBar() {
   const elapsedTimeDiv = document.getElementById('elapsed-time-div');
   const timeTakenDiv = document.getElementById('time-taken-div');
   const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
+  const percentageCount = document.getElementById('percentage-count');
+  percentageCount.innerHTML = '0%';
   elapsedTakenSeconds.innerHTML = '0s';
   timeTakenDiv.style.display = 'none';
   loadingProgress.style.width = '0%';
@@ -183,6 +185,8 @@ function hideLoadingBar() {
   const submitBtn = document.getElementById("submitBtn");
   const loadingProgress = document.getElementById('progress-bar');
   const elapsedTimeDiv = document.getElementById('elapsed-time-div');
+  const percentageCount = document.getElementById('percentage-count');
+  percentageCount.innerHTML = '100%';
   loadingProgress.style.width = '100%';
   loadingBar.style.display = 'none';  
   elapsedTimeDiv.style.display = 'none';
@@ -205,25 +209,17 @@ async function generateResponse(user_prompt) {
   const result_body = document.querySelector("#result-body");
   const word_count_value = document.getElementById("word_count").value;
   const model = document.getElementById("model").value;
+
   const API_URL = "https://api.openai.com/v1/chat/completions";
   const API_KEY = document.getElementById("openAIKey").value;
   const system_prompt =
     "You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not explicitly mentioned in the report, please do not create any IoCs. However, if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.";
   let resultText = "";
-  // Start timer
+
   const timeTakenSeconds = document.getElementById('time-taken-seconds');
   const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
-  const startTime = Date.now();
-  // const startTimeInSeconds = Math.floor(startTime / 1000);
-  // const timerElement = document.getElementById('timer');
-  const timerInterval = setInterval(() => {
-    const currentTime = Date.now();
-    const elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
-    timeTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
-    elapsedTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
-    // console.log(`Response generated in ${elapsedTimeInSeconds} seconds`);
-  }, 1000);
-
+  const percentageCount = document.getElementById('percentage-count');
+  
 
 
   try {
@@ -238,6 +234,10 @@ async function generateResponse(user_prompt) {
       toast('Error', 'Invalid API key format', toastStyles.error, 4000);
       return;
     }
+
+    let receivedChunks = 0; // Counter for received chunks
+    let totalChunks = parseInt(word_count_value)
+    // console.log("Word count value: " + word_count_value)
     
     const response = await fetch(API_URL, {
       method: "POST",
@@ -261,9 +261,16 @@ async function generateResponse(user_prompt) {
     // Read the response as a stream of data
     const reader = response.body.getReader();
     const decoder = new TextDecoder("utf-8");
-    let receivedChunks = 0; // Counter for received chunks
-    let totalChunks = parseInt(word_count_value)
-    // console.log("Word count value: " + word_count_value)
+
+    // Start timer
+    const startTime = Date.now();
+    const timerInterval = setInterval(() => {
+      const currentTime = Date.now();
+      const elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+      timeTakenSeconds.innerHTML = `${elapsedTimeInSeconds} seconds`;
+      elapsedTakenSeconds.innerHTML = `${elapsedTimeInSeconds}s`;
+    }, 1000);
+
 
     while (true) {
       const { done, value } = await reader.read();
@@ -272,7 +279,8 @@ async function generateResponse(user_prompt) {
       }
 
       receivedChunks++;
-      let progress = parseFloat(((receivedChunks / totalChunks) * 100).toFixed(0));  
+      let progress = parseFloat(((receivedChunks / totalChunks) * 100).toFixed(0));
+      percentageCount.innerHTML = `${progress}%`;  
       updateLoadingProgress(progress);
 
 
@@ -332,27 +340,6 @@ function submitForm() {
       toast('Error', error, toastStyles.error, 4000);
     });
 }
-
-// Call the API key validation endpoint
-// submitForm();
-
-
-
-// function showLoadingUI() {
-//   // Show loading UI (e.g., display a spinner or show a loading message)
-//   const processingBtn = document.getElementById("processingBtn");
-//   const submitBtn = document.getElementById("submitBtn");
-//   processingBtn.style.display = "block";
-//   submitBtn.style.display = "none";
-// }
-
-// function hideLoadingUI() {
-//   // Hide loading UI (e.g., hide the spinner or remove the loading message)
-//   const submitBtn = document.getElementById("submitBtn");
-//   const processingBtn = document.getElementById("processingBtn");
-//   submitBtn.style.display = "block";
-//   processingBtn.style.display = "none";
-// }
 
 function isValidApiKeyFormat(apiKey) {
   // Implement the validation logic for the API key format

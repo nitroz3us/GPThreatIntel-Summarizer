@@ -358,12 +358,16 @@
             >
               Summarize
             </button>
-            <div id="progress" class="w-full bg-gray-800 rounded-lg mt-2" style="display: none;">
-              <div id="progress-bar" class="flex justify-center items-center opacity-60 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-sm font-medium text-blue-100 text-center p-0.5 h-9 leading-none"></div>
+            <div id="progress" class="w-full bg-gray-800 rounded-lg mt-4"  style="display: none;">
+              <div id="progress-bar" class="flex justify-center items-center opacity-90 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-sm font-medium text-blue-100 text-center p-0.5 h-4 leading-none"></div>
             </div>
-            <div id="elapsed-time-div" class="flex flex-row justify-end mt-2" style="display: none;">
-              <label class="mr-2">Elapsed Time: </label>
-              <div id="elapsed-taken-seconds" class="flex justify-center items-center"></div>
+            <div id="elapsed-time-div" class="flex justify-between flex-row mt-2" style="display: none;">
+              <div id="percentage-count">
+              </div>
+              <div class="flex flex-row">
+                <label class="mr-2">Elapsed Time:</label>
+                <div id="elapsed-taken-seconds" class="flex justify-center items-center">10s</div>
+              </div>            
             </div>
           </div>
         </form>
