@@ -15,7 +15,6 @@
     <title>GPThreat Intel Summarizer</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="/static/main.js"></script>
     <script type="text/javascript" src="/static/SimpleToast.js"></script>
     <script
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
@@ -99,14 +98,14 @@
             <!-- top left, bottom left -->
             <li id="text-url-tab" class="flex-1 rounded-l-lg bg-gray-800" onclick="toggleUI('text-url-tab')">
               <a
-                class="tab-item inline-block w-full p-2.5 rounded-l-lg hover:bg-gray-700 focus:bg-gray-800 border border-0 text-white cursor-pointer"
+                class="tab-item inline-block w-full p-2.5 rounded-l-lg hover:bg-gray-700 border border-0 text-white cursor-pointer"
                 aria-current="page"
                 >Text/URL</a
               >
             </li>
             <li id="pdf-tab" class="flex-1 rounded-r-lg" onclick="toggleUI('pdf-tab')">
               <a
-                class="tab-item inline-block w-full p-2.5 rounded-r-lg text-white hover:bg-gray-700 focus:bg-gray-800 cursor-pointer"
+                class="tab-item inline-block w-full p-2.5 rounded-r-lg text-white hover:bg-gray-700 cursor-pointer"
                 >PDF</a
               >
             </li>
@@ -358,7 +357,9 @@
             >
               Summarize
             </button>
-            <div id="progress" class="w-full bg-gray-800 rounded-lg mt-4"  style="display: none;">
+          </div>
+          <div class="mt-12">
+            <div id="progress" class="w-full bg-gray-800 rounded-lg" style="display: none;">
               <div id="progress-bar" class="flex justify-center items-center opacity-90 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-sm font-medium text-blue-100 text-center p-0.5 h-4 leading-none"></div>
             </div>
             <div id="elapsed-time-div" class="flex justify-between flex-row mt-2" style="display: none;">
@@ -371,7 +372,7 @@
             </div>
           </div>
         </form>
-        <div class="mt-6">
+        <div>
           <div id="time-taken-div" class="flex flex-row justify-between" style="display: none;">
             <div class="flex flex-row">
               <label id="time-taken-label" class="mr-2">Time Taken: </label>
@@ -400,6 +401,8 @@
         </div>
     </div>
 
+    <script type="text/javascript" src="/static/main.js">      
+    </script>
     <script type="text/javascript">
       toastInit();
     </script>

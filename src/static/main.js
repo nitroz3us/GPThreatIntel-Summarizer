@@ -1,10 +1,20 @@
 let activeTab = "text-url-tab";
+var dragDropDiv = document.getElementById("dragDropUI");
+var readFromTextAreaDiv = document.getElementById("readFromTextArea");
+var dragDropInput = document.getElementById("dragDropInput");
+var result_body = document.querySelector("#result-body");
+var formElement = document.getElementById("myForm");
+var result_card = document.querySelector("#result-card");
+var loadingBar = document.getElementById('progress');
+var submitBtn = document.getElementById("submitBtn");
+var loadingProgress = document.getElementById('progress-bar');
+var elapsedTimeDiv = document.getElementById('elapsed-time-div');
+var timeTakenDiv = document.getElementById('time-taken-div');
+var elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
+var percentageCount = document.getElementById('percentage-count');
+var timeTakenSeconds = document.getElementById('time-taken-seconds');
 
 function toggleUI(tabId) {
-  const dragDropDiv = document.getElementById("dragDropUI");
-  const readFromTextAreaDiv = document.getElementById("readFromTextArea");
-  const dragDropInput = document.getElementById("dragDropInput");
-
   // If clicking on the same tab, do nothing
   if (activeTab === tabId) {
     return;
@@ -13,10 +23,12 @@ function toggleUI(tabId) {
   // Remove the "bg-gray-800" class from the previous active tab
   const previousActiveTab = document.getElementById(activeTab);
   previousActiveTab.classList.remove("bg-gray-800");
+  previousActiveTab.classList.remove("focus:bg-gray-800");
 
   // Add the "bg-gray-800" class to the clicked tab (PDF tab)
   const clickedTab = document.getElementById(tabId);
   clickedTab.classList.add("bg-gray-800");
+  clickedTab.classList.add("focus:bg-gray-800");
 
   // Update the activeTab variable
   activeTab = tabId;
@@ -52,7 +64,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // Copy to clipboard
 function copyClipboard() {
     toastInit();
-    const result_body = document.querySelector("#result-body");
     const range = document.createRange();
     range.selectNode(result_body);
     // get the value of the result_body
@@ -138,15 +149,12 @@ function dataFileDnD() {
 
 // Function to clear the content of the result-body div
 function clearResultBody() {
-  const result_body = document.querySelector("#result-body");
-  const result_card = document.querySelector("#result-card");
   result_card.style.display = "none";
   result_body.innerHTML = ""; // Clear the content
 }
 
 // Function to fetch the user prompt from the server
 async function fetchUserPrompt() {
-  const formElement = document.getElementById("myForm");
   const data = new FormData(formElement);
   try {
     const response = await fetch("/", {
@@ -163,13 +171,7 @@ async function fetchUserPrompt() {
 
 function showLoadingBar() {
   // Replace 'loading-bar' with the ID or class of your loading bar element
-  const loadingBar = document.getElementById('progress');
-  const submitBtn = document.getElementById("submitBtn");
-  const loadingProgress = document.getElementById('progress-bar');
-  const elapsedTimeDiv = document.getElementById('elapsed-time-div');
-  const timeTakenDiv = document.getElementById('time-taken-div');
-  const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
-  const percentageCount = document.getElementById('percentage-count');
+
   percentageCount.innerHTML = '0%';
   elapsedTakenSeconds.innerHTML = '0s';
   timeTakenDiv.style.display = 'none';
@@ -180,12 +182,7 @@ function showLoadingBar() {
 }
 
 function hideLoadingBar() {
-  const loadingBar = document.getElementById('progress');
-  const timeTakenDiv = document.getElementById('time-taken-div');
-  const submitBtn = document.getElementById("submitBtn");
-  const loadingProgress = document.getElementById('progress-bar');
-  const elapsedTimeDiv = document.getElementById('elapsed-time-div');
-  const percentageCount = document.getElementById('percentage-count');
+
   percentageCount.innerHTML = '100%';
   loadingProgress.style.width = '100%';
   loadingBar.style.display = 'none';  
@@ -196,7 +193,6 @@ function hideLoadingBar() {
 
 // Function to update the loading bar progress
 function updateLoadingProgress(percentage) {
-  const loadingProgress = document.getElementById('progress-bar');
   loadingProgress.style.width = '0%';
   loadingProgress.style.width = `${percentage}%`;
 }
@@ -205,20 +201,14 @@ function updateLoadingProgress(percentage) {
 
 // Function to generate the response using OpenAI API
 async function generateResponse(user_prompt) {
-  const result_card = document.querySelector("#result-card");
-  const result_body = document.querySelector("#result-body");
   const word_count_value = document.getElementById("word_count").value;
   const model = document.getElementById("model").value;
-
   const API_URL = "https://api.openai.com/v1/chat/completions";
   const API_KEY = document.getElementById("openAIKey").value;
   const system_prompt =
     "You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not explicitly mentioned in the report, please do not create any IoCs. However, if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.";
   let resultText = "";
 
-  const timeTakenSeconds = document.getElementById('time-taken-seconds');
-  const elapsedTakenSeconds = document.getElementById('elapsed-taken-seconds');
-  const percentageCount = document.getElementById('percentage-count');
   
 
 
@@ -258,6 +248,15 @@ async function generateResponse(user_prompt) {
       }),
     });
 
+    // Check for API errors.
+    if (!response.ok) {
+      // Response status is not in the range of 200-299 (success)
+      // Handle the error here
+      const errorData = await response.json();
+      toast('Error', errorData.error.message, toastStyles.error, 7000);
+      throw new Error("API Error: ", errorData.error.message); // Throw an error to trigger the catch block
+    }
+
     // Read the response as a stream of data
     const reader = response.body.getReader();
     const decoder = new TextDecoder("utf-8");
@@ -283,10 +282,11 @@ async function generateResponse(user_prompt) {
       percentageCount.innerHTML = `${progress}%`;  
       updateLoadingProgress(progress);
 
-
       // Massage and parse the chunk of data
       const chunk = decoder.decode(value);
       const lines = chunk.split("\n");
+      // console.log("Chunk: " + chunk)
+      // console.log ("Lines: " + lines)
       const parsedLines = lines
         .map((line) => line.replace(/^data: /, "").trim()) // Remove the "data: " prefix
         .filter((line) => line !== "" && line !== "[DONE]") // Remove empty lines and "[DONE]"
@@ -316,14 +316,16 @@ async function generateResponse(user_prompt) {
     toast('Success', 'Summary generated!', toastStyles.success, 4000);
     result_card.style.display = "block";
     result_body.innerHTML = marked.parse(resultText);
+    result_body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
   } catch (error) {
-    console.error("Error:", error);
-    toast('Error', error, toastStyles.error, 4000);
     hideLoadingBar();
+    timeTakenDiv.style.display = 'none';
   }
 }
 
 function submitForm() {
+  toast('Info', 'Generating summary...', toastStyles.info, 4000);
   showLoadingBar();
   clearResultBody();
   // Fetch the user prompt and generate the response
@@ -357,7 +359,7 @@ async function validateApiKey(apiKey) {
     const response = await fetch("https://api.openai.com/v1/engines", { headers });
     return response.ok;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return false;
   }
 } 
@@ -376,7 +378,7 @@ window.onload = function () {
     
     wordCountSlider.oninput = function () {
         wordCountValue.innerHTML = this.value;
-        console.log(this.value)
+        // console.log(this.value)
     };
 }   
 

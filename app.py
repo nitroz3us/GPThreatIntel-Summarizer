@@ -135,30 +135,19 @@ def about(request: Request):
 
 @app.post("/", response_class=HTMLResponse)
 async def index(request: Request, data: str = Form(None), file_upload: UploadFile = File(None)):
-    # openai.api_key = openAIKey
-    # print("Model Chosen: " + model)
-
     # Handle PDF input
     if file_upload is not None:
         # Process file upload
         data = await file_upload.read()
-
         # read the pdf file
         pdf_data = pdfplumber.open(io.BytesIO(data))
         output = ""
         for page in pdf_data.pages:
             output += page.extract_text()
-
-        # result = process_text_with_openai(output, word_count, model)
-        # print("Print output: \n" + result)
-        # result = markdown.markdown(result) 
         return output
     if data is not None:    
         # Process text/url input
         output = extract_text(data)
-        # result = process_text_with_openai(output, word_count, model)
-        # print("Print output: \n" + result)
-        # result = markdown.markdown(result)
         return output
     else:
         # Handle case when no data is provided
