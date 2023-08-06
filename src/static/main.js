@@ -23,12 +23,12 @@ function toggleUI(tabId) {
   // Remove the "bg-gray-800" class from the previous active tab
   const previousActiveTab = document.getElementById(activeTab);
   previousActiveTab.classList.remove("bg-gray-800");
-  previousActiveTab.classList.remove("focus:bg-gray-800");
+
 
   // Add the "bg-gray-800" class to the clicked tab (PDF tab)
   const clickedTab = document.getElementById(tabId);
   clickedTab.classList.add("bg-gray-800");
-  clickedTab.classList.add("focus:bg-gray-800");
+  
 
   // Update the activeTab variable
   activeTab = tabId;

@@ -1,3 +1,7 @@
+.tab-button {
+  transition: background-color 0.3s;
+}
+
 .fade-in-down {
   animation: fadeInDown 1s;
 }
