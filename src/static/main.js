@@ -153,51 +153,26 @@ function clearResultBody() {
   result_body.innerHTML = ""; // Clear the content
 }
 
-// Function to fetch the user prompt from the server
+// Function to fetch the user prompt from the Python backend
 async function fetchUserPrompt() {
   const data = new FormData(formElement);
+  // console.log("Data: " + data)
   try {
     const response = await fetch("/", {
       method: "POST",
       body: data,
     });
     const user_prompt = await response.text();
+    // console.log("User prompt: " + user_prompt)
     return user_prompt;
   } catch (error) {
     console.error("Error fetching user prompt:", error);
+    toast('Error', error, toastStyles.error, 4000);
+    hideLoadingBar();
+    timeTakenDiv.style.display = 'none';
     return ""; // Return an empty string on error
   }
 }
-
-function showLoadingBar() {
-  // Replace 'loading-bar' with the ID or class of your loading bar element
-
-  percentageCount.innerHTML = '0%';
-  elapsedTakenSeconds.innerHTML = '0s';
-  timeTakenDiv.style.display = 'none';
-  loadingProgress.style.width = '0%';
-  submitBtn.style.display = "none";
-  loadingBar.style.display = 'block';
-  elapsedTimeDiv.style.display = 'flex';
-}
-
-function hideLoadingBar() {
-
-  percentageCount.innerHTML = '100%';
-  loadingProgress.style.width = '100%';
-  loadingBar.style.display = 'none';  
-  elapsedTimeDiv.style.display = 'none';
-  submitBtn.style.display = "block";
-  timeTakenDiv.style.display = 'flex';
-}
-
-// Function to update the loading bar progress
-function updateLoadingProgress(percentage) {
-  loadingProgress.style.width = '0%';
-  loadingProgress.style.width = `${percentage}%`;
-}
-
-
 
 // Function to generate the response using OpenAI API
 async function generateResponse(user_prompt) {
@@ -209,9 +184,6 @@ async function generateResponse(user_prompt) {
     "You are a Cyber Threat Intelligence Analyst and need to summarise a report for upper management. The report must be nicely formatted with three sections: one Executive Summary section and one 'TTPs and IoCs' section and one Mitigation Recommendation. The second section shall list all IP addresses (C2), domains, URLs, tools and hashes (sha-1, sha256, md5, etc.) which can be found in the report. If IoCs are not explicitly mentioned in the report, please do not create any IoCs. However, if TTPs are found, list them all. Nicely format the report as markdown. Use newlines between markdown headings.";
   let resultText = "";
 
-  
-
-
   try {
     if (!isValidApiKeyFormat(API_KEY)) {
       toast('Error', 'Invalid API key format', toastStyles.error, 4000);
@@ -220,14 +192,12 @@ async function generateResponse(user_prompt) {
 
     const isValidApiKey = await validateApiKey(API_KEY);
     if (!isValidApiKey) {
-      // console.error("Invalid API key format.");
       toast('Error', 'Invalid API key format', toastStyles.error, 4000);
       return;
     }
 
     let receivedChunks = 0; // Counter for received chunks
     let totalChunks = parseInt(word_count_value)
-    // console.log("Word count value: " + word_count_value)
     
     const response = await fetch(API_URL, {
       method: "POST",
@@ -298,9 +268,7 @@ async function generateResponse(user_prompt) {
         const { content } = delta;
         // Update the UI with the new content
         if (content) {
-          // result_card.style.display = "block";
           resultText += content;
-          // result_body.innerHTML += content;
           
         }
       }
@@ -324,6 +292,31 @@ async function generateResponse(user_prompt) {
   }
 }
 
+function showLoadingBar() {
+  percentageCount.innerHTML = '0%';
+  elapsedTakenSeconds.innerHTML = '0s';
+  timeTakenDiv.style.display = 'none';
+  loadingProgress.style.width = '0%';
+  submitBtn.style.display = "none";
+  loadingBar.style.display = 'block';
+  elapsedTimeDiv.style.display = 'flex';
+}
+
+function hideLoadingBar() {
+  percentageCount.innerHTML = '100%';
+  loadingProgress.style.width = '100%';
+  loadingBar.style.display = 'none';  
+  elapsedTimeDiv.style.display = 'none';
+  submitBtn.style.display = "block";
+  timeTakenDiv.style.display = 'flex';
+}
+
+// Function to update the loading bar progress
+function updateLoadingProgress(percentage) {
+  loadingProgress.style.width = '0%';
+  loadingProgress.style.width = `${percentage}%`;
+}
+
 function submitForm() {
   toast('Info', 'Generating summary...', toastStyles.info, 4000);
   showLoadingBar();
@@ -334,7 +327,10 @@ function submitForm() {
       if (user_prompt) {
         generateResponse(user_prompt);
       } else {
-        console.error("User prompt is empty.");
+        // For Scanned-PDF/Linearized PDF, you need OCR to extract text from the PDF
+        toast('Error', 'Unable to read from PDF. Ensure that it is a text-based PDF!', toastStyles.error, 4000);
+        hideLoadingBar();
+        timeTakenDiv.style.display = 'none';
       }
     })
     .catch((error) => {

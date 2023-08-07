@@ -139,11 +139,14 @@ async def index(request: Request, data: str = Form(None), file_upload: UploadFil
     if file_upload is not None:
         # Process file upload
         data = await file_upload.read()
+        print("Data: ", data[:100])
+
         # read the pdf file
         pdf_data = pdfplumber.open(io.BytesIO(data))
         output = ""
         for page in pdf_data.pages:
             output += page.extract_text()
+        # print("Output", output)
         return output
     if data is not None:    
         # Process text/url input
