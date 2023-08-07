@@ -57,7 +57,7 @@ https://github.com/nitroz3us/GPThreatIntel-Summarizer/assets/109442833/e8327641-
 
 ## Future Developments
 - [ ] Parse IOC's from an image
-- [x] Allow users to choose various GPT Models
+- [ ] Use LangChain to help with the text-embedding & vectors 
 
 ## Why am I doing this?
 - Wanted to try out OpenAI API & FastAPI
