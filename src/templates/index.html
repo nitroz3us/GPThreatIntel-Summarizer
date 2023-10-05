@@ -139,25 +139,27 @@
                 >
                   <div
                     x-ref="dnd"
-                    class="relative flex flex-col items-center text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
+                    class="relative h-full flex flex-col items-center text-gray-400 border border-gray-700 border-dashed rounded cursor-pointe p-7"
                   >
                     <input
                       accept=".pdf"
                       type="file"
                       name="file_upload"
                       id="dragDropInput"
-                      class="absolute inset-0 z-50 w-full p-0 outline-none opacity-0 cursor-pointer"
+                      class="hidden"
                       @change="addFiles($event)"
                       @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
                       @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
                       @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
                       title=""
+
                       required
                       disabled
                     />
                     <!-- absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -->
-                    <div
-                      class="flex flex-col items-center justify-center py-10 text-center"
+                    <label
+                      for="dragDropInput"
+                      class="flex flex-col h-full items-center justify-center py-10 text-center"
                     >
                       <svg
                         class="w-6 h-6 mr-1 text-current-50"
@@ -176,7 +178,7 @@
                       <p class="m-0">
                         Drag your PDF file here or click in this area.
                       </p>
-                    </div>
+                    </label>
                   </div>
   
                   <template x-if="files.length > 0">
@@ -335,7 +337,7 @@
                   <label for="openAIKey" class="font-medium">OpenAI API Key <span class="text-sm text-rose-600">(required)</span></label>
                 </div>
                 <div>
-                  <label for="openAIKey" class="text-xs md:text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400">https://platform.openai.com/account/api-keys</a></label>
+                  <label for="openAIKey" class="text-xs md:text-sm">Enter your API key, located at <a href="https://platform.openai.com/account/api-keys" target="_blank" class="text-violet-400 [overflow-wrap:anywhere]">https://platform.openai.com/account/api-keys</a></label>
                 </div>
                 <input
                 type="password"

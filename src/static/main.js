@@ -95,10 +95,13 @@ function dataFileDnD() {
             );
         },
         remove(index) {
-            let files = [...this.files];
+            let files = [];
             files.splice(index, 1);
-
+            // reset the file input
             this.files = createFileList(files);
+            document.getElementById("dragDropInput").files = this.files;
+
+            
         },
         drop(e) {
             let removed, add;
@@ -163,7 +166,10 @@ async function fetchUserPrompt() {
       body: data,
     });
     const user_prompt = await response.text();
-    // console.log("User prompt: " + user_prompt)
+    // Use langchain here text splitter and embedding here
+    // Afterwards process it with the model
+    
+    
     return user_prompt;
   } catch (error) {
     console.error("Error fetching user prompt:", error);
@@ -199,6 +205,7 @@ async function generateResponse(user_prompt) {
     let receivedChunks = 0; // Counter for received chunks
     let totalChunks = parseInt(word_count_value)
     
+
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -213,6 +220,7 @@ async function generateResponse(user_prompt) {
         ],
         max_tokens: parseInt(word_count_value),
         top_p: 0.95,
+        temperature: 0.7,
         n: 1,
         stream: true, // For streaming responses
       }),
@@ -335,6 +343,7 @@ function submitForm() {
     })
     .catch((error) => {
       console.error("Error fetching user prompt:", error);
+      hideLoadingBar();
       toast('Error', error, toastStyles.error, 4000);
     });
 }
@@ -377,6 +386,7 @@ window.onload = function () {
         // console.log(this.value)
     };
 }   
+
 
 
 
